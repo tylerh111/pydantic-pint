@@ -1,0 +1,172 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pydantic-pint"
+description = "Pydantic validation for Pint Quantities."
+authors = [
+    {name = "Tyler Hughes", email = "tylerxh111+git@proton.me"},
+]
+readme = "README.md"
+license = { file = "LICENSE.md" }
+requires-python = ">=3.8"
+keywords = [
+    "pydantic-pint",
+    "pydantic",
+    "pint",
+]
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Framework :: Pydantic",
+    "Framework :: Pydantic :: 2",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+dependencies = [
+    "pint>=0.20",
+    "pydantic>=2.0",
+]
+dynamic = [
+    "version",
+]
+
+[project.optional-dependencies]
+build = [
+    "build",
+    "bumpver",
+    "setuptools>=61",
+    "setuptools-scm",
+    "towncrier",
+    "twine",
+]
+dev = [
+    "nox",
+    "setuptools-scm",
+    "pydantic-pint[build,docs,lint,tests]"
+]
+docs = [
+    "mike",
+    "mkdocs",
+    "mkdocs-exclude",
+    "mkdocs-material",
+    "mkdocs-material-extensions",
+    "mkdocs-minify-plugin",
+    "mkdocs-redirects",
+    "mkdocstrings",
+    "mkdocstrings-python",
+    "pygments",
+    "pymdown-extensions",
+]
+lint = [
+  "ruff",
+]
+tests = [
+  "pytest",
+  "pytest-cov",
+]
+
+[project.urls]
+source        = "https://github.com/tylerh111/pydantic-pint"
+issues        = "https://github.com/tylerh111/pydantic-pint/issues"
+changes       = "https://github.com/tylerh111/pydantic-pint/blob/main/CHANGES.md"
+documentation = "https://pydantic-pint.readthedocs.io"
+
+[tool.bumpver]
+current_version = "0.0"
+version_pattern = "MAJOR.MINOR[.PATCH][-TAG]"
+commit_message = "release version {new_version}"
+commit = true
+tag = true
+push = false
+
+[tool.bumpver.file_patterns]
+"LICENSE.md" = [
+    'Copyright (c) YYYY',
+]
+"pyproject.toml" = [
+    'current_version = "{version}"',
+    'fallback_version = "{version}"',
+]
+"src/pydantic_pint/__init__.py" = [
+    '__version__ = "{version}"',
+]
+
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.report]
+ignore_errors = true
+exclude_also = [
+    "def __repr__",
+    "if self\\.debug",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__:",
+    "@(abc\\.)?abstractmethod",
+]
+
+[tool.pytest.ini_options]
+addopts = ["--import-mode=importlib"]
+pythonpath = "src"
+
+[tool.ruff]
+line-length = 88
+indent-width = 4
+target-version = "py38"
+
+[tool.ruff.lint]
+# see rules at https://docs.astral.sh/ruff/rules
+extend-select = ["RUF", "C90", "UP", "I", "D"]
+extend-ignore = ["D105", "D107", "F541", ]
+unfixable = ["B"]
+# isort = { known-first-party = ["pydantic-pint"] }
+mccabe = { max-complexity = 14 }
+pydocstyle = { convention = "google" }
+
+[tool.ruff.lint.isort]
+required-imports = ["from __future__ import annotations"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["E402", "F401"]
+"**/{docs,tests,tools}/*" = ["E402", "D"]
+"**/notebooks/**/*.ipynb" = ["E402"]
+"*.pyi" = ["I002"]
+"noxfile.py" = ["D"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.towncrier]
+version = "0.0"
+directory = "changes"
+filename = "CHANGES.md"
+start_string = "<!-- release notes -->\n"
+underlines = ["", "", ""]
+title_format = "## [{version}](https://github.com/tylerh111/pydantic-pint/releases/tag/{version}) - {project_date}"
+issue_format = "[{issue}](https://github.com/tylerh111/pydantic-pint/issues/{issues})"
+type = [
+    { name = "Features", directory = "feature", showcontent = true },
+    { name = "Changes", directory = "changes", showcontent = true },
+    { name = "Fixes", directory = "fix", showcontent = true },
+    { name = "Documentation", directory = "docs", showcontent = true },
+    { name = "Misc", directory = "misc", showcontent = false },
+]
+
+[tool.setuptools_scm]
+version_scheme = "no-guess-dev"
+write_to = "src/pydantic_pint/_version.py"
+fallback_version = "0.0"
