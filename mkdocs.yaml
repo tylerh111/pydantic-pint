@@ -1,0 +1,215 @@
+# project
+site_name: Pydantic Pint
+site_url: https://pydantic-pint.readthedocs.io
+site_author: Tyler Hughes
+site_description: >-
+  Pydantic validation for Pint Quantities.
+
+# repository
+repo_name: tylerh111
+repo_url: https://github.com/tylerh111/pydantic-pint
+# edit_uri: edit/main/docs
+
+# build
+remote_name: origin
+remote_branch: docs
+
+# copyright
+copyright: Copyright &copy; 2024 Tyler Hughes
+
+# configuration
+extra:
+  generator: false
+  status:
+    new: Recently Added
+    deprecated: Deprecated
+  social:
+    - icon: fontawesome/brands/git-alt
+      link: https://github.com/tylerh111
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/pydantic-pint/
+
+extra_css:
+
+extra_javascript:
+  - https://unpkg.com/mermaid@10.6.1/dist/mermaid.min.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/katex.min.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+hooks:
+  - docs/plugins/fetch_project_files.py
+
+strict: false
+
+validation:
+  absolute_links: warn
+  omitted_files: warn
+  unrecognized_links: warn
+
+watch: [
+  "src",
+  "CHANGES.md",
+  "CONTRIBUTING.md",
+  "LICENSE.md",
+]
+
+# theme
+theme:
+  name: material
+  # logo: assets/logo.png
+  # favicon: assets/favicon.ico
+  custom_dir: docs/overrides
+  font:
+    text: Roboto
+    code: Roboto Mono
+  features:
+    - announce.dismiss
+    - content.action.edit
+    - content.action.view
+    - content.code.annotate
+    - content.code.copy
+    - content.tooltips
+    - navigation.expand
+    - navigation.indexes
+    - navigation.instant
+    - navigation.sections
+    - navigation.tabs
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+  palette:
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/link
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: indigo
+      toggle:
+        icon: material/toggle-switch-off
+        name: Switch to system preference
+
+# plugins
+plugins:
+  - exclude:
+      glob:
+        - plugins/*
+        - __pycache__/*
+  - mike:
+      alias_type: symlink
+      canonical_version: latest
+  - minify:
+      minify_html: true
+  - mkdocstrings:
+      handlers:
+        python:
+          import:
+            - https://docs.python.org/3.8/objects.inv
+            - https://docs.pydantic.dev/latest/objects.inv
+            - https://pint.readthedocs.io/en/latest/objects.inv
+          paths: [src]
+          options:
+            allow_inspection: true
+            docstring_section_style: spacy
+            docstring_style: google
+            heading_level: 2
+            inherited_members: true
+            members_order: source
+            merge_init_into_class: true
+            separate_signature: true
+            show_root_heading: true
+            show_signature_annotations: false
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+  - redirects:
+  - search:
+
+# extensions
+markdown_extensions:
+  - abbr:
+  - admonition:
+  - footnotes:
+  # - smarty:
+  #     smart_quotes: false
+  - tables:
+  - toc:
+      permalink: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify {kwds: {case: lower}}
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.blocks.definition:
+  - pymdownx.blocks.html:
+  - pymdownx.caret:
+  - pymdownx.details:
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+  # - pymdownx.escapeall:
+  #     hardbreak: True
+  #     nbsp: True
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class:  true
+  - pymdownx.inlinehilite:
+      custom_inline:
+        - name: math
+          class: arithmatex
+          format: !!python/name:pymdownx.arithmatex.arithmatex_inline_format
+  - pymdownx.keys:
+  - pymdownx.mark:
+  - pymdownx.magiclink:
+      repo_url_shortener: true
+      repo_url_shorthand: true
+      social_url_shorthand: true
+      social_url_shortener: true
+      user: tylerh111
+      repo: pydantic-pint
+      normalize_issue_symbols: true
+  # - pymdownx.progressbar:
+  # - pymdownx.saneheaders:
+  - pymdownx.smartsymbols:
+  - pymdownx.snippets:
+  # - pymdownx.striphtml:
+  - pymdownx.superfences:
+      preserve_tabs: true
+      custom_fences:
+        - name: math
+          class: arithmatex
+          format: !!python/name:pymdownx.arithmatex.arithmatex_fenced_format
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+      combine_header_slug: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify {kwds: {case: lower}}
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde:
+
+# navigation
+nav:
+  - Get Started:
+    - Welcome: index.md
+    - Usage: usage.md
+    - Changes: changes.md
+    - Contributing: contributing.md
+    - License: license.md
+  - API Documentation:
+    - Pydantic Pint:
+      - Quantity: api/quantity.md
