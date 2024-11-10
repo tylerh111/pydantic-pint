@@ -155,7 +155,7 @@ class PydanticPintQuantity:
 
         # special case when no serialization mode is specified, but
         # need to serialize to a json convertible object
-        if self.ser_mode == "str" or (self.ser_mode is None and to_json):
+        if self.ser_mode == "str" or to_json:
             return f"{v}"
 
         # return the `pint.Quanity` object as is (no serialization)
