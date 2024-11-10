@@ -165,7 +165,7 @@ except ValidationError as e:
 ## Quantity Serialization
 
 `PydanticPintQuantity` can be serialized in different ways, similar to the validation.
-The annotation can have a serialization mode for `"str"`, `"dict"`, or `None` (the default).
+The annotation can have a serialization mode for `"str"`, `"dict"`, `"number"` or `None` (the default).
 The default serialization behavior is to return a `str` or `pint.Quantity`, depending on the whether it produce a JSON serializable object.
 That is, it will return a `str` if in Pydantic's `"json"` mode, and it will return a `pint.Quantity` if in Pydantic's `"python"`.
 Use `to_json` to change between these modes if using the serialization function directly.
@@ -212,16 +212,22 @@ Use `to_json` to change between these modes if using the serialization function 
     #> {'quantity': {'magnitude': 1, 'units': 'meter'}}
     ```
 
-!!! failure "Serializing to a Number"
-
-    Serialization to a number is not permitted due to the loss of information of the units.
-    If you need to get the magnitude of the value, use `"dict"` mode instead for serialization.
-    Users can pull the magnitude easily from the `"magnitude"` key.
+=== "To `number`"
 
     ```python
     class Model(BaseModel):
-        quantity: Annotated[Quantity, PydanticPintQuantity("m", ser_mode="dict")]
+        quantity: Annotated[Quantity, PydanticPintQuantity("m", ser_mode="number")]
 
     m = Model(quantity={"magnitude": 1000, "units": "m"})
-    print(m.model_dump()["magnitude"])
+
+    print(m.model_dump())
+    print(m.model_dump(mode="json"))
+    #> {'quantity': 1000}
+    #> {'quantity': 1000}
     ```
+
+!!! warning "Serializing to a Number"
+
+    Serialization to a number is dangerous due to the loss of information of the units.
+    If you need to get the magnitude of the value, it is recommended to use `"dict"` for serialization mode instead.
+    Users can pull the magnitude easily from the `"magnitude"` key.
