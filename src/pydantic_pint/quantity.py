@@ -28,9 +28,10 @@ class PydanticPintQuantity:
             A custom Pint context (or context name) for the default unit registry.
             All contexts are applied in validation conversion.
         ser_mode:
-            The mode for serializing the field; either `"str"` or `"dict"`.
+            The mode for serializing the field; either `"str"`, `"dict", "number"`.
             By default, in Pydantic's `"python"` serialization mode, fields are serialzied to a `pint.Quantity`;
             in Pydantic's `"json"` serialziation mode, fields are serialized to a `str`.
+            Note, the units are dropped when serializing to a number.
         strict:
             Forces users to specify units; on by default.
             If disabled, a value without units - provided by the user - will be treated as the base units of the `PydanticPintQuantity`.
@@ -42,7 +43,7 @@ class PydanticPintQuantity:
         *,
         ureg: pint.UnitRegistry | None = None,
         ureg_contexts: Iterable[str | pint.Context] | None = None,
-        ser_mode: Literal["str", "dict"] | None = None,
+        ser_mode: Literal["str", "dict", "number"] | None = None,
         strict: bool = True,
     ):
         self.ser_mode = ser_mode.lower() if ser_mode else None
@@ -149,9 +150,15 @@ class PydanticPintQuantity:
                 "units": v.units if not to_json else f"{v.units}",
             }
 
-        if self.ser_mode == "str" or to_json:
+        if self.ser_mode == "number":
+            return v.magnitude
+
+        # special case when no serialization mode is specified, but
+        # need to serialize to a json convertible object
+        if self.ser_mode == "str" or (self.ser_mode is None and to_json):
             return f"{v}"
 
+        # return the `pint.Quanity` object as is (no serialization)
         return v
 
     def __get_pydantic_core_schema__(
