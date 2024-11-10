@@ -180,8 +180,8 @@ Use `to_json` to change between these modes if using the serialization function 
 
     print(m.model_dump())
     print(m.model_dump(mode="json"))
-    #> {'quantity': <Quantity(1, 'meter')>}
-    #> {'quantity': '1 meter'}
+    #> {'quantity': <Quantity(1000, 'meter')>}
+    #> {'quantity': '1000 meter'}
     ```
 
 === "To `str`"
@@ -194,8 +194,8 @@ Use `to_json` to change between these modes if using the serialization function 
 
     print(m.model_dump())
     print(m.model_dump(mode="json"))
-    #> {'quantity': '1 meter'}
-    #> {'quantity': '1 meter'}
+    #> {'quantity': '1000 meter'}
+    #> {'quantity': '1000 meter'}
     ```
 
 === "To `dict`"
@@ -208,8 +208,8 @@ Use `to_json` to change between these modes if using the serialization function 
 
     print(m.model_dump())
     print(m.model_dump(mode="json"))
-    #> {'quantity': {'magnitude': 1, 'units': <Unit('meter')>}}
-    #> {'quantity': {'magnitude': 1, 'units': 'meter'}}
+    #> {'quantity': {'magnitude': 1000, 'units': <Unit('meter')>}}
+    #> {'quantity': {'magnitude': 1000, 'units': 'meter'}}
     ```
 
 === "To `number`"
