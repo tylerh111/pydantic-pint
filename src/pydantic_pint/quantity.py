@@ -51,19 +51,44 @@ class PydanticPintQuantity:
         ser_mode: Literal["str", "dict", "number"] | None = None,
         strict: bool = True,
     ):
-        self.restriction = restriction.lower() if restriction else "units"
+        self.restriction = restriction.lower() if restriction else None
         self.ser_mode = ser_mode.lower() if ser_mode else None
         self.strict = strict
 
         self.ureg = ureg if ureg else pint.UnitRegistry()
         self.ureg_contexts = ureg_contexts if ureg_contexts else []
 
-        if self.restriction == "units":
-            self.units = self.ureg(_arg)
-            self.dimensions = self.units.dimensionality
-        if self.restriction == "dimensions":
-            self.units = None
-            self.dimensions = self.ureg.get_dimensionality(_arg)
+        # if restriction is not specified, try to automatically figure out what to restrict
+        # this is based on how `pint` can digest the `_arg`
+        # e.g. `PydanticPintQuantity("meter")` -> automatically parse as units
+        # e.g. `PydanticPintQuantity("[length]")` -> automatically parse as dimensions
+
+        _units = None
+        _dims = None
+
+        if self.restriction is None or self.restriction == "units":
+            try:
+                _units = self.ureg(_arg)
+                _dims = _units.dimensionality
+                self.restriction = "units"
+            except pint.errors.UndefinedUnitError:
+                if self.restriction == "units":
+                    raise
+
+        if self.restriction is None or self.restriction == "dimensions":
+            try:
+                _units = None
+                _dims = self.ureg.get_dimensionality(_arg)
+                self.restriction = "dimensions"
+            except ValueError:
+                if self.restriction == "dimensions":
+                    raise
+
+        if self.restriction is None:
+            raise ValueError(f"cannot deduce units or dimensions from '{_arg}'")
+
+        self.units = _units
+        self.dimensions = _dims
 
     def validate(
         self,
