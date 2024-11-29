@@ -43,6 +43,44 @@ In the example below, all the following are equivalent.
     Model(quantity=1000 * ureg.watts * ureg.seconds / ureg.newton)
     ```
 
+### Validation Based on Units or Dimensions
+
+The `PydanticPintQuantity` annotation allows for restrictions based on either units or dimensions.
+By default, it will try to automatically deduce the restriction type.
+To avoid automatic deduction, use `restriction="units"` or `restriction="dimensions"` to be specific.
+
+Restrictions on the unit requires all inputs to the field be convertible to the specified unit.
+The value the model stores has the units specified in the annotation.
+Restrictions on the dimensions only requires input values to be of the specified dimension.
+The units provided (units are required here) are kept.
+This means there is no common / default unit for that field.
+
+=== "Restricting Units"
+
+    ```python
+    class Model(BaseModel):
+        # quantity must be convertible to a "meter" (and will be represented as meters)
+        quantity: Annotated[Quantity, PydanticPintQuantity("m")]
+
+    Model(quantity=1 * ureg.meters)
+    Model(quantity=1 * ureg.inches)
+    #> Model(quantity=<Quantity(1, 'meter')>)
+    #> Model(quantity=<Quantity(0.0254, 'meter')>)
+    ```
+
+=== "Restricting Dimensions"
+
+    ```python
+    class Model(BaseModel):
+        # quantity must have units that measure length (and will keep the units provided)
+        quantity: Annotated[Quantity, PydanticPintQuantity("[length]")]
+
+    Model(quantity=1 * ureg.meters)
+    Model(quantity=1 * ureg.inches)
+    #> Model(quantity=<Quantity(1, 'meter')>)
+    #> Model(quantity=<Quantity(1, 'inch')>)
+    ```
+
 ### Strict Mode
 
 By default, strict mode is enabled which forces users to include units when instantiating the model.
