@@ -71,7 +71,7 @@ class PydanticPintQuantity:
                 _units = self.ureg(_arg)
                 _dims = _units.dimensionality
                 self.restriction = "units"
-            except pint.errors.UndefinedUnitError:
+            except AttributeError:
                 if self.restriction == "units":
                     raise
 
