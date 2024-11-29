@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from numbers import Number
-from typing import TYPE_CHECKING, Any, Iterable, Literal
+from typing import TYPE_CHECKING, Any, Iterable, Literal, Mapping
 
 if TYPE_CHECKING:
     from pydantic import GetCoreSchemaHandler
@@ -17,11 +17,13 @@ class PydanticPintQuantity:
     """Pydantic Pint Quantity.
 
     Pydantic compatible annotation for validating and serializing `pint.Quantity` fields.
+    Accepts units or dimensions as the restriction type for the field.
 
     Args:
-        units:
-            The base units of the Pydantic field.
-            All input units must be convertible to these units.
+        _arg:
+            The base units or dimensions to check the Pydantic field.
+            If the field is restricted by units, all input units must be convertible to these units.
+            If the field is restricted by dimension, then any unit of that dimension is allowed.
         ureg:
             A custom Pint unit registry.
         ureg_contexts:
@@ -35,24 +37,33 @@ class PydanticPintQuantity:
         strict:
             Forces users to specify units; on by default.
             If disabled, a value without units - provided by the user - will be treated as the base units of the `PydanticPintQuantity`.
+            Strict mode is ignored and always applied if specifying dimensionality (instead of units).
     """
 
     def __init__(
         self,
-        units: str,
+        _arg: str | Mapping[str, int],
+        /,
         *,
         ureg: pint.UnitRegistry | None = None,
         ureg_contexts: Iterable[str | pint.Context] | None = None,
+        restriction: Literal["units", "dimensions"] | None = None,
         ser_mode: Literal["str", "dict", "number"] | None = None,
         strict: bool = True,
     ):
+        self.restriction = restriction.lower() if restriction else "units"
         self.ser_mode = ser_mode.lower() if ser_mode else None
         self.strict = strict
 
         self.ureg = ureg if ureg else pint.UnitRegistry()
         self.ureg_contexts = ureg_contexts if ureg_contexts else []
 
-        self.units = self.ureg(units)
+        if self.restriction == "units":
+            self.units = self.ureg(_arg)
+            self.dimensions = self.units.dimensionality
+        if self.restriction == "dimensions":
+            self.units = None
+            self.dimensions = self.ureg.get_dimensionality(_arg)
 
     def validate(
         self,
@@ -100,13 +111,17 @@ class PydanticPintQuantity:
             raise ValueError(e) from e
 
         try:
-            if isinstance(v, Number) and not self.strict:
-                # check must happen after conversion from string because string might not have any units
-                # only applicable if dealing with no units and if in strict mode
+            # check must happen after conversion from string because string might not have any units
+            # only applicable if dealing with no units and if not in strict mode
+            if isinstance(v, Number) and self.restriction == "units" and not self.strict:
                 v = v * self.units
-            if isinstance(v, Quantity):
+            if isinstance(v, Number) and self.restriction == "dimensions" and not self.strict:
+                raise ValueError("must specify units")
+            if isinstance(v, Quantity) and self.restriction == "units":
                 v = v.to(self.units, *self.ureg_contexts)
-                return v
+            if isinstance(v, Quantity) and self.restriction == "dimensions" and not v.check(self.dimensions):
+                raise ValueError("incorrect dimension")
+            return v
         except AttributeError as e:
             # raises attribute error if value is a number
             # this case only happes when parsing from a string, the units are not present, and not in strict mode
@@ -119,7 +134,7 @@ class PydanticPintQuantity:
             # raising a type error with extra information
             raise TypeError(f"unknown unit registry context {e}") from e
 
-        raise ValueError(f"unknown type {type(v)}")
+        raise ValueError(f"unknown error: {v=} | {type(v)=}")
 
     def serialize(
         self,
