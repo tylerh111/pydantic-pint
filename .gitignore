@@ -1,0 +1,7 @@
+.pixi
+*.egg-info
+__pycache__
+_version.py
+pixi.lock
+pixi.toml
+sandbox.py
