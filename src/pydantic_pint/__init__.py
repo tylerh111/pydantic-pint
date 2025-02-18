@@ -9,6 +9,7 @@ except ImportError:
 
 
 __all__ = [
+    "DEFAULT_UNIT_REGISTRY",
     "PydanticPintQuantity",
 ]
 
