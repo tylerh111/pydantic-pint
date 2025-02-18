@@ -38,6 +38,11 @@ class PydanticPintQuantity:
             Forces users to specify units; on by default.
             If disabled, a value without units - provided by the user - will be treated as the base units of the `PydanticPintQuantity`.
             Strict mode is ignored and always applied if specifying dimensionality (instead of units).
+        exact:
+            Forces the units to be exact; off by default.
+            If enabled, a value with units - provided by the user - must match the base units of the `PydanticPintQuantity`.
+            Strict mode may be disabled as well, in which case, a value with no units will fall back to the base units.
+            Exact mode is ignored if `restriction` is `"dimension"`.
     """
 
     def __init__(
@@ -50,10 +55,12 @@ class PydanticPintQuantity:
         restriction: Literal["units", "dimensions"] | None = None,
         ser_mode: Literal["str", "dict", "number"] | None = None,
         strict: bool = True,
+        exact: bool = False,
     ):
         self.restriction = restriction.lower() if restriction else None
         self.ser_mode = ser_mode.lower() if ser_mode else None
         self.strict = strict
+        self.exact = exact
 
         self.ureg = ureg if ureg else pint.UnitRegistry()
         self.ureg_contexts = ureg_contexts if ureg_contexts else []
@@ -143,7 +150,9 @@ class PydanticPintQuantity:
             if isinstance(v, Number) and self.restriction == "dimensions" and not self.strict:
                 raise ValueError("must specify units")
             if isinstance(v, Quantity) and self.restriction == "units":
-                v = v.to(self.units, *self.ureg_contexts)
+                _v, v = v, v.to(self.units, *self.ureg_contexts)
+                if v.magnitude != _v.magnitude and self.exact:
+                    raise ValueError(f"must specify exact units: '{self.units.units}'")
             if isinstance(v, Quantity) and self.restriction == "dimensions" and not v.check(self.dimensions):
                 raise ValueError("incorrect dimension")
             return v
