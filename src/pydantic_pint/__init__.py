@@ -13,3 +13,4 @@ __all__ = [
 ]
 
 from .quantity import PydanticPintQuantity
+from .registry import DEFAULT_UNIT_REGISTRY
