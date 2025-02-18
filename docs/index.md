@@ -18,7 +18,7 @@ Many projects that have a need for data validation may also need to work with ph
 from pydantic import BaseModel
 from pydantic_pint import PydanticPintQuantity
 from pint import Quantity
-from typing import Annotations
+from typing import Annotated
 
 class Box(BaseModel):
     length: Annotated[Quantity, PydanticPintQuantity("m")]
