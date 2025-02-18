@@ -29,6 +29,10 @@ class PydanticPintQuantity:
         ureg_contexts:
             A custom Pint context (or context name) for the default unit registry.
             All contexts are applied in validation conversion.
+        restriction:
+            Identify what the argument is restricting, the units or dimensions.
+            By default, it will automatically determine if the argument is specifying units or dimensions.
+            It is recommended to use the default.
         ser_mode:
             The mode for serializing the field; either `"str"`, `"dict", "number"`.
             By default, in Pydantic's `"python"` serialization mode, fields are serialzied to a `pint.Quantity`;
