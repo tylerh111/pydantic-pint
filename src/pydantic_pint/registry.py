@@ -4,20 +4,30 @@ from __future__ import annotations
 
 import pint
 
-_registry = pint.UnitRegistry()
+__all__ = [
+    "app_registry",
+    "get_registry",
+    "set_registry",
+]
 
 
-def get_unit_registry() -> pint.UnitRegistry:
+_DEFAULT_REGISTRY = pint.LazyRegistry()
+
+app_registry = pint.ApplicationRegistry(_DEFAULT_REGISTRY)
+
+def get_registry() -> pint.UnitRegistry:
+    """Get the Pydantic Pint global registry.
+
+    Returns:
+        The current global registry.
     """
-    Returns the current unit registry to be used.
-    Always use this function to retrieve the unit registry.
-    """
-    return _registry
+    return app_registry.get()
 
 
-def init_unit_registry(registry: pint.UnitRegistry) -> None:
+def set_registry(registry: pint.UnitRegistry):
+    """Set the Pydantic Pint global registry.
+
+    Args:
+        registry: The new global registry.
     """
-    Overrides the global unit registry with the provided registry.
-    """
-    global _registry
-    _registry = registry
+    app_registry.set(registry)

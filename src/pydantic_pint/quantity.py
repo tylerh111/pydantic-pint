@@ -12,7 +12,7 @@ import pint
 from pint.facets.plain.quantity import PlainQuantity as Quantity
 from pydantic_core import core_schema
 
-from pydantic_pint.registry import get_unit_registry
+from pydantic_pint.registry import get_registry
 
 
 class PydanticPintQuantity:
@@ -58,7 +58,7 @@ class PydanticPintQuantity:
         self.ser_mode = ser_mode.lower() if ser_mode else None
         self.strict = strict
 
-        self.ureg = ureg if ureg else get_unit_registry()
+        self.ureg = ureg if ureg else get_registry()
         self.ureg_contexts = ureg_contexts if ureg_contexts else []
 
         # if restriction is not specified, try to automatically figure out what to restrict
