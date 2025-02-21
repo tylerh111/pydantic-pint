@@ -75,7 +75,7 @@ class PydanticPintQuantity:
 
         if self.restriction is None or self.restriction == "units":
             try:
-                _units = self.ureg(_arg)
+                _units = self.ureg(_arg).units
                 _dims = _units.dimensionality
                 self.restriction = "units"
             except AttributeError:
@@ -150,9 +150,9 @@ class PydanticPintQuantity:
             if isinstance(v, Number) and self.restriction == "dimensions" and not self.strict:
                 raise ValueError("must specify units")
             if isinstance(v, Quantity) and self.restriction == "units":
-                _v, v = v, v.to(self.units, *self.ureg_contexts)
-                if v.magnitude != _v.magnitude and self.exact:
-                    raise ValueError(f"must specify exact units: '{self.units.units}'")
+                if self.exact and self.units != v.units:
+                    raise ValueError(f"must specify exact units: '{self.units}'")
+                v = v.to(self.units, *self.ureg_contexts)
             if isinstance(v, Quantity) and self.restriction == "dimensions" and not v.check(self.dimensions):
                 raise ValueError("incorrect dimension")
             return v
