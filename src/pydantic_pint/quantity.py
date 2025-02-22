@@ -28,7 +28,8 @@ class PydanticPintQuantity:
             If the field is restricted by dimension, then any unit of that dimension is allowed.
         ureg:
             A custom Pint unit registry.
-            If not specified, the default unit registry `pydantic_pint.registry.DEFAULT_UNIT_REGISTRY` is used.
+            If not specified, the default unit registry from `pydantic_pint.registry.app_registry` is used.
+            See `pydantic_pint.registry.get_registry` and `pydantic_pint.registry.set_registry`.
         ureg_contexts:
             A custom Pint context (or context name) for the default unit registry.
             All contexts are applied in validation conversion.
