@@ -10,6 +10,8 @@ except ImportError:
 
 __all__ = [
     "PydanticPintQuantity",
+    "PydanticPintValue"
 ]
 
 from .quantity import PydanticPintQuantity
+from .value import PydanticPintValue
