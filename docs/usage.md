@@ -116,6 +116,32 @@ If strict mode is disabled, then users may input a number (i.e. [`numbers.Number
     #> quantity=<Quantity(1, 'meter')>
     ```
 
+### Value Restrictions with `pydantic.Field`
+
+The `PydanticPintValue` class is a wrapper for a `pint.Quantity` instance.
+It adds methods to the `pint.Quantity` instance that allows Pydantic to interface with it.
+This in turn gives `pint.Quantity` the ability to be used within the field comparison restrictions.
+Note, the `Field` must be specified in as an annotation instead of assigned to the field.
+
+```python
+ureg = pint.UnitRegistry()
+
+class Model(BaseModel):
+    positive:     Annotated[Quantity, PydanticPintQuantity("m", ureg=ureg), Field(gt=PydanticPintValue(0, "m", ureg=ureg))]
+    non_negative: Annotated[Quantity, PydanticPintQuantity("m", ureg=ureg), Field(ge=PydanticPintValue(0, "m", ureg=ureg))]
+    negative:     Annotated[Quantity, PydanticPintQuantity("m", ureg=ureg), Field(lt=PydanticPintValue(0, "m", ureg=ureg))]
+    non_positive: Annotated[Quantity, PydanticPintQuantity("m", ureg=ureg), Field(le=PydanticPintValue(0, "m", ureg=ureg))]
+    even:         Annotated[Quantity, PydanticPintQuantity("m", ureg=ureg), Field(multiple_of=PydanticPintValue(2, "m", ureg=ureg))]
+
+model = Model(
+    positive="1m",
+    non_negative="0m",
+    negative="-1m",
+    non_positive="0m",
+    even="2m",
+)
+```
+
 ### Custom Unit Registry and Unit Registry Context
 
 Developers can pass in a custom `pint.UnitRegistry` or a custom `pint.Context`s.
