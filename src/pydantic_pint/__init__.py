@@ -10,6 +10,10 @@ except ImportError:
 
 __all__ = [
     "PydanticPintQuantity",
+    "app_registry",
+    "get_registry",
+    "set_registry",
 ]
 
 from .quantity import PydanticPintQuantity
+from .registry import app_registry, get_registry, set_registry
