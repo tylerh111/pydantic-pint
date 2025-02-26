@@ -151,19 +151,12 @@ class PydanticPintQuantity:
             raise ValueError(e) from e
 
         try:
-            # check must happen after conversion from string because string might not have any units
-            # only applicable if dealing with no units and if not in strict mode
-            if isinstance(v, Number) and self.restriction == "units" and not self.strict:
-                v = v * self.units
-            if isinstance(v, Number) and self.restriction == "dimensions" and not self.strict:
-                raise ValueError("must specify units")
-            if isinstance(v, Quantity) and self.restriction == "units":
-                if self.exact and self.units != v.units:
-                    raise ValueError(f"must specify exact units: '{self.units}'")
-                v = v.to(self.units, *self.ureg_contexts)
-            if isinstance(v, Quantity) and self.restriction == "dimensions" and not v.check(self.dimensions):
-                raise ValueError("incorrect dimension")
-            return v
+            if self.restriction == "units":
+                return self._validate_units(v)
+            elif self.restriction == "dimensions":
+                return self._validate_dimensions(v)
+            else:
+                raise ValueError(f"unknown restrictions '{self.restriction}'")
         except AttributeError as e:
             # raises attribute error if value is a number
             # this case only happes when parsing from a string, the units are not present, and not in strict mode
@@ -177,6 +170,36 @@ class PydanticPintQuantity:
             raise TypeError(f"unknown unit registry context {e}") from e
 
         raise ValueError(f"unknown error: {v=} | {type(v)=}")
+
+    def _validate_units(self, v: Number | Quantity):
+        if self.units is None:
+            raise TypeError(f"unknown error: units are restricted but units are none")
+
+        if not self.strict and isinstance(v, Number):
+            return v * self.units
+        elif self.strict and isinstance(v, Number):
+            raise ValueError(f"must specify units with 'strict' flag enabled")
+        elif not self.exact and isinstance(v, Quantity):
+            return v.to(self.units, *self.ureg_contexts)
+        elif self.exact and isinstance(v, Quantity):
+            if self.units == v.units:
+                return v
+            raise ValueError(f"must specify exact units: '{self.units}'")
+        else:
+            raise ValueError(f"unknown error: value type '{type(v)}'")
+
+    def _validate_dimensions(self, v: Number | Quantity):
+        if self.dimensions is None:
+            raise TypeError(f"unknown error: dimensions are restricted but dimensions are none")
+
+        if isinstance(v, Number):
+            raise ValueError(f"must specify units with dimension restriction")
+        elif isinstance(v, Quantity):
+            if v.check(self.dimensions):
+                return v
+            raise ValueError(f"incorrect dimensions")
+        else:
+            raise ValueError(f"unknown error: value type '{type(v)}'")
 
     def serialize(
         self,
