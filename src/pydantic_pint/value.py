@@ -8,6 +8,8 @@ import pint
 from pint.facets.plain.quantity import PlainQuantity as Quantity
 from pydantic_core import core_schema, SchemaSerializer
 
+from pydantic_pint.registry import get_registry
+
 
 class PydanticPintValue:
     """Proxy class for a Pint Quantity instance.
@@ -34,7 +36,7 @@ class PydanticPintValue:
         *,
         ureg: pint.UnitRegistry | None = None,
     ):
-        ureg = ureg if ureg else pint.UnitRegistry()
+        ureg = ureg if ureg else get_registry()
         inst = ureg.Quantity(__value, __units)
 
         inst._pydantic_serialize = cls._pydantic_serialize
