@@ -200,7 +200,7 @@ class PydanticPintQuantity:
         elif isinstance(v, Quantity):
             if v.check(self.dimensions):
                 return v
-            raise ValueError(f"incorrect dimensions")
+            raise ValueError(f"incorrect dimensions: requires '{self.dimensions}'")
         else:
             raise ValueError(f"unknown error: value type '{type(v)}'")
 
