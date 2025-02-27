@@ -267,9 +267,12 @@ class PydanticPintQuantity:
         """
         _from_typedict_schema = {
             "magnitude": core_schema.typed_dict_field(
-                core_schema.str_schema(coerce_numbers_to_str=True)
+                core_schema.str_schema(coerce_numbers_to_str=True),
             ),
-            "units": core_schema.typed_dict_field(core_schema.str_schema()),
+            "units": core_schema.typed_dict_field(
+                core_schema.str_schema(),
+                required=False,
+            ),
         }
 
         validate_schema = core_schema.chain_schema(
