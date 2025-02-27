@@ -128,7 +128,10 @@ class PydanticPintQuantity:
 
                 - A `dict` is received and the keys `"magnitude"` and `"units"` do not exist.
                 - There are no units provided in strict mode.
-                - Provided units cannot be converted to base units.
+                - The units do not match in exact mode.
+                - Provided units cannot be converted to required units.
+                - Provided units are not in the required dimensions.
+                - No such units found in registry.
                 - An unknown unit was provided.
                 - An unknown type for value was provided.
             TypeError:
