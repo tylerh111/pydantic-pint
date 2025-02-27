@@ -50,7 +50,7 @@ class PydanticPintQuantity:
             Forces the units to be exact; off by default.
             If enabled, a value with units - provided by the user - must match the base units of the `PydanticPintQuantity`.
             Strict mode may be disabled as well, in which case, a value with no units will fall back to the base units.
-            Exact mode is ignored if `restriction` is `"dimension"`.
+            When restricting the dimensions, the user must match the base dimensions exactly, without using any custom transformations.
     """
 
     def __init__(
@@ -129,8 +129,9 @@ class PydanticPintQuantity:
                 - A `dict` is received and the keys `"magnitude"` and `"units"` do not exist.
                 - There are no units provided in strict mode.
                 - The units do not match in exact mode.
+                - The dimensions do not match in exact mode.
                 - Provided units cannot be converted to required units.
-                - Provided units are not in the required dimensions.
+                - Provided units cannot be converted to required dimensions.
                 - No such units found in registry.
                 - An unknown unit was provided.
                 - An unknown type for value was provided.
@@ -197,10 +198,14 @@ class PydanticPintQuantity:
 
         if isinstance(v, Number):
             raise ValueError(f"must specify units with dimension restriction")
-        elif isinstance(v, Quantity):
+        elif not self.exact and isinstance(v, Quantity):
+            if v.is_compatible_with(next(iter(self.ureg._cache.dimensional_equivalents[self.dimensions]))):
+                return v
+            raise ValueError(f"cannot convert to dimension '{self.dimensions}'")
+        elif self.exact and isinstance(v, Quantity):
             if v.check(self.dimensions):
                 return v
-            raise ValueError(f"incorrect dimensions: requires '{self.dimensions}'")
+            raise ValueError(f"must specify exact dimensions: '{self.dimensions}'")
         else:
             raise ValueError(f"unknown error: value type '{type(v)}'")
 
