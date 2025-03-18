@@ -23,6 +23,27 @@ def test_quantity_custom_unit_registry():
     assert x.value == ureg("1m")
 
 
+def test_quantity_custom_unit_registry_context():
+
+    ureg = UnitRegistry()
+    ctx = Context()
+    ctx.add_transformation("[length]", "[time]", lambda ureg, x: x / (100 * ureg.miles) * (1.5 * ureg.hours))
+    ctx.add_transformation("[time]", "[length]", lambda ureg, x: x / (1.5 * ureg.hours) * (100 * ureg.miles))
+
+    class TestModel(BaseModel):
+        value: Annotated[PlainQuantity, PydanticPintQuantity("hr", ureg=ureg, ureg_contexts=[ctx])]
+
+    x = TestModel(value="100mi")
+    assert x.value.m == 1.5
+    assert x.value.u == ureg.Unit("hr")
+    assert x.value == ureg("1.5hr")
+
+    x = TestModel(value="1.5hr")
+    assert x.value.m == 1.5
+    assert x.value.u == ureg.Unit("hr")
+    assert x.value == ureg("1.5hr")
+
+
 def test_quantity_custom_unit_registry_with_custom_transformations():
 
     ureg = UnitRegistry()
