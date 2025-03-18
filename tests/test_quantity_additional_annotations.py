@@ -6,7 +6,10 @@ from pint.facets.plain import PlainQuantity
 from pydantic import BaseModel, ValidationError, Field
 from pydantic_pint import PydanticPintQuantity, PydanticPintValue, get_registry
 
-from typing_extensions import Annotated
+try:
+    from typing import Annotated
+except ImportError:
+    from typing_extensions import Annotated
 
 
 def test_quantity_additional_annotations_field_gt():

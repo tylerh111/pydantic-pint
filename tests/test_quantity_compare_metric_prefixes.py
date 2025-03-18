@@ -5,7 +5,10 @@ from pint.facets.plain import PlainQuantity
 from pydantic import BaseModel
 from pydantic_pint import PydanticPintQuantity, get_registry
 
-from typing_extensions import Annotated
+try:
+    from typing import Annotated
+except ImportError:
+    from typing_extensions import Annotated
 
 
 def test_quantity_compare_metric_prefixes_1Tm():
