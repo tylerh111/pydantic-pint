@@ -94,7 +94,7 @@ push = false
 
 [tool.bumpver.file_patterns]
 "LICENSE.md" = [
-    'Copyright (c) YYYY',
+    'Copyright (c) 2024-YYYY',
 ]
 "pyproject.toml" = [
     'current_version = "{version}"',
