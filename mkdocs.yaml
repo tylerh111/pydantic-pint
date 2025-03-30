@@ -115,7 +115,7 @@ plugins:
   - mkdocstrings:
       handlers:
         python:
-          import:
+          inventories:
             - https://docs.python.org/3.8/objects.inv
             - https://docs.pydantic.dev/latest/objects.inv
             - https://pint.readthedocs.io/en/latest/objects.inv
