@@ -5,8 +5,7 @@ from __future__ import annotations
 from numbers import Number
 
 import pint
-from pint.facets.plain.quantity import PlainQuantity as Quantity
-from pydantic_core import core_schema, SchemaSerializer
+from pydantic_core import SchemaSerializer, core_schema
 
 from pydantic_pint.registry import get_registry
 

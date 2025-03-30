@@ -1,10 +1,10 @@
-
 from __future__ import annotations
 
 import pytest
 from pint import Context, UnitRegistry
 from pint.facets.plain import PlainQuantity
 from pydantic import BaseModel, ValidationError
+
 from pydantic_pint import PydanticPintQuantity, get_registry
 
 try:
@@ -14,7 +14,6 @@ except ImportError:
 
 
 def test_quantity_restrict_dimensions_length_input_string():
-
     ureg = get_registry()
 
     class TestModel(BaseModel):
@@ -37,7 +36,6 @@ def test_quantity_restrict_dimensions_length_input_string():
 
 
 def test_quantity_restrict_dimensions_length_input_number():
-
     class TestModel(BaseModel):
         value: Annotated[PlainQuantity, PydanticPintQuantity("[length]")]
 
@@ -46,7 +44,6 @@ def test_quantity_restrict_dimensions_length_input_number():
 
 
 def test_quantity_restrict_dimensions_length_input_incorrect_dimension():
-
     class TestModel(BaseModel):
         value: Annotated[PlainQuantity, PydanticPintQuantity("[length]")]
 
@@ -58,15 +55,24 @@ def test_quantity_restrict_dimensions_length_input_incorrect_dimension():
 
 
 def test_quantity_restrict_dimensions_length_input_with_custom_transformations_nonexact():
-
     ureg = UnitRegistry()
     ctx = Context()
-    ctx.add_transformation("[length]", "[time]", lambda ureg, x: x / (100 * ureg.miles) * (1.5 * ureg.hours))
-    ctx.add_transformation("[time]", "[length]", lambda ureg, x: x / (1.5 * ureg.hours) * (100 * ureg.miles))
+    ctx.add_transformation(
+        "[length]",
+        "[time]",
+        lambda ureg, x: x / (100 * ureg.miles) * (1.5 * ureg.hours),
+    )
+    ctx.add_transformation(
+        "[time]",
+        "[length]",
+        lambda ureg, x: x / (1.5 * ureg.hours) * (100 * ureg.miles),
+    )
     ureg.enable_contexts(ctx)
 
     class TestModel(BaseModel):
-        value: Annotated[PlainQuantity, PydanticPintQuantity("[length]", exact=False, ureg=ureg)]
+        value: Annotated[
+            PlainQuantity, PydanticPintQuantity("[length]", exact=False, ureg=ureg)
+        ]
 
     x = TestModel(value="100mi")
     assert x.value.m == 100
@@ -80,15 +86,24 @@ def test_quantity_restrict_dimensions_length_input_with_custom_transformations_n
 
 
 def test_quantity_restrict_dimensions_length_input_with_custom_transformations_exact():
-
     ureg = UnitRegistry()
     ctx = Context()
-    ctx.add_transformation("[length]", "[time]", lambda ureg, x: x / (100 * ureg.miles) * (1.5 * ureg.hours))
-    ctx.add_transformation("[time]", "[length]", lambda ureg, x: x / (1.5 * ureg.hours) * (100 * ureg.miles))
+    ctx.add_transformation(
+        "[length]",
+        "[time]",
+        lambda ureg, x: x / (100 * ureg.miles) * (1.5 * ureg.hours),
+    )
+    ctx.add_transformation(
+        "[time]",
+        "[length]",
+        lambda ureg, x: x / (1.5 * ureg.hours) * (100 * ureg.miles),
+    )
     ureg.enable_contexts(ctx)
 
     class TestModel(BaseModel):
-        value: Annotated[PlainQuantity, PydanticPintQuantity("[length]", exact=True, ureg=ureg)]
+        value: Annotated[
+            PlainQuantity, PydanticPintQuantity("[length]", exact=True, ureg=ureg)
+        ]
 
     x = TestModel(value="100mi")
     assert x.value.m == 100

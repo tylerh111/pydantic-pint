@@ -1,8 +1,8 @@
-
 from __future__ import annotations
 
 from pint.facets.plain import PlainQuantity
 from pydantic import BaseModel
+
 from pydantic_pint import PydanticPintQuantity, get_registry
 
 try:
@@ -12,7 +12,6 @@ except ImportError:
 
 
 def test_quantity_compare_metric_prefixes_1Tm():
-
     ureg = get_registry()
 
     class TestModel(BaseModel):
@@ -25,7 +24,6 @@ def test_quantity_compare_metric_prefixes_1Tm():
 
 
 def test_quantity_compare_metric_prefixes_1Gm():
-
     ureg = get_registry()
 
     class TestModel(BaseModel):
@@ -38,7 +36,6 @@ def test_quantity_compare_metric_prefixes_1Gm():
 
 
 def test_quantity_compare_metric_prefixes_1Mm():
-
     ureg = get_registry()
 
     class TestModel(BaseModel):
@@ -51,7 +48,6 @@ def test_quantity_compare_metric_prefixes_1Mm():
 
 
 def test_quantity_compare_metric_prefixes_1km():
-
     ureg = get_registry()
 
     class TestModel(BaseModel):
@@ -64,7 +60,6 @@ def test_quantity_compare_metric_prefixes_1km():
 
 
 def test_quantity_compare_metric_prefixes_1hm():
-
     ureg = get_registry()
 
     class TestModel(BaseModel):
@@ -77,7 +72,6 @@ def test_quantity_compare_metric_prefixes_1hm():
 
 
 def test_quantity_compare_metric_prefixes_1dam():
-
     ureg = get_registry()
 
     class TestModel(BaseModel):
@@ -90,7 +84,6 @@ def test_quantity_compare_metric_prefixes_1dam():
 
 
 def test_quantity_compare_metric_prefixes_1m():
-
     ureg = get_registry()
 
     class TestModel(BaseModel):
@@ -103,7 +96,6 @@ def test_quantity_compare_metric_prefixes_1m():
 
 
 def test_quantity_compare_metric_prefixes_1dm():
-
     ureg = get_registry()
 
     class TestModel(BaseModel):
@@ -116,7 +108,6 @@ def test_quantity_compare_metric_prefixes_1dm():
 
 
 def test_quantity_compare_metric_prefixes_1cm():
-
     ureg = get_registry()
 
     class TestModel(BaseModel):
@@ -129,7 +120,6 @@ def test_quantity_compare_metric_prefixes_1cm():
 
 
 def test_quantity_compare_metric_prefixes_1mm():
-
     ureg = get_registry()
 
     class TestModel(BaseModel):
@@ -142,7 +132,6 @@ def test_quantity_compare_metric_prefixes_1mm():
 
 
 def test_quantity_compare_metric_prefixes_1μm():
-
     ureg = get_registry()
 
     class TestModel(BaseModel):
@@ -155,7 +144,6 @@ def test_quantity_compare_metric_prefixes_1μm():
 
 
 def test_quantity_compare_metric_prefixes_1nm():
-
     ureg = get_registry()
 
     class TestModel(BaseModel):
@@ -168,7 +156,6 @@ def test_quantity_compare_metric_prefixes_1nm():
 
 
 def test_quantity_compare_metric_prefixes_1pm():
-
     ureg = get_registry()
 
     class TestModel(BaseModel):

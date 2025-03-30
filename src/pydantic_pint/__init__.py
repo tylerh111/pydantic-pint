@@ -17,5 +17,5 @@ __all__ = [
 ]
 
 from .quantity import PydanticPintQuantity
-from .value import PydanticPintValue
 from .registry import app_registry, get_registry, set_registry
+from .value import PydanticPintValue

@@ -17,6 +17,7 @@ app_registry = pint.ApplicationRegistry(_DEFAULT_REGISTRY)
 """Pydantic Pint default application registry."""
 
 
+
 def get_registry() -> pint.UnitRegistry:
     """Get the Pydantic Pint global registry.
 
