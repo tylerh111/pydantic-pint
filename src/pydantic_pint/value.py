@@ -39,24 +39,14 @@ class PydanticPintValue:
         ureg = ureg if ureg else get_registry()
         inst = ureg.Quantity(__value, __units)
 
-        inst._pydantic_serialize = cls._pydantic_serialize
-        inst.__pydantic_serializer__ = cls.__pydantic_serializer__
-
-        return inst
-
-    def _pydantic_serialize(
-        self,
-        v: Quantity,
-        info: core_schema.SerializationInfo | None = None,
-    ) -> str:
-        return str(v)
-
-    __pydantic_serializer__ = SchemaSerializer(
-        core_schema.any_schema(
-            serialization=core_schema.plain_serializer_function_ser_schema(
-                _pydantic_serialize,
-                info_arg=True,
-                when_used='always',
+        inst.__pydantic_serializer__ = SchemaSerializer(
+            core_schema.any_schema(
+                serialization=core_schema.plain_serializer_function_ser_schema(
+                    lambda v: str(v),
+                    info_arg=False,
+                    when_used="always",
+                )
             )
         )
-    )
+
+        return inst
