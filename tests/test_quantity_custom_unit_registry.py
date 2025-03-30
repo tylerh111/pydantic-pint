@@ -1,10 +1,10 @@
-
 from __future__ import annotations
 
 import pytest
 from pint import Context, UnitRegistry
 from pint.facets.plain import PlainQuantity
 from pydantic import BaseModel, ValidationError
+
 from pydantic_pint import PydanticPintQuantity
 
 try:
@@ -14,7 +14,6 @@ except ImportError:
 
 
 def test_quantity_custom_unit_registry():
-
     ureg = UnitRegistry()
 
     class TestModel(BaseModel):
@@ -27,14 +26,23 @@ def test_quantity_custom_unit_registry():
 
 
 def test_quantity_custom_unit_registry_context():
-
     ureg = UnitRegistry()
     ctx = Context()
-    ctx.add_transformation("[length]", "[time]", lambda ureg, x: x / (100 * ureg.miles) * (1.5 * ureg.hours))
-    ctx.add_transformation("[time]", "[length]", lambda ureg, x: x / (1.5 * ureg.hours) * (100 * ureg.miles))
+    ctx.add_transformation(
+        "[length]",
+        "[time]",
+        lambda ureg, x: x / (100 * ureg.miles) * (1.5 * ureg.hours),
+    )
+    ctx.add_transformation(
+        "[time]",
+        "[length]",
+        lambda ureg, x: x / (1.5 * ureg.hours) * (100 * ureg.miles),
+    )
 
     class TestModel(BaseModel):
-        value: Annotated[PlainQuantity, PydanticPintQuantity("hr", ureg=ureg, ureg_contexts=[ctx])]
+        value: Annotated[
+            PlainQuantity, PydanticPintQuantity("hr", ureg=ureg, ureg_contexts=[ctx])
+        ]
 
     x = TestModel(value="100mi")
     assert x.value.m == 1.5
@@ -48,11 +56,18 @@ def test_quantity_custom_unit_registry_context():
 
 
 def test_quantity_custom_unit_registry_with_custom_transformations():
-
     ureg = UnitRegistry()
     ctx = Context()
-    ctx.add_transformation("[length]", "[time]", lambda ureg, x: x / (100 * ureg.miles) * (1.5 * ureg.hours))
-    ctx.add_transformation("[time]", "[length]", lambda ureg, x: x / (1.5 * ureg.hours) * (100 * ureg.miles))
+    ctx.add_transformation(
+        "[length]",
+        "[time]",
+        lambda ureg, x: x / (100 * ureg.miles) * (1.5 * ureg.hours),
+    )
+    ctx.add_transformation(
+        "[time]",
+        "[length]",
+        lambda ureg, x: x / (1.5 * ureg.hours) * (100 * ureg.miles),
+    )
     ureg.enable_contexts(ctx)
 
     class TestModel(BaseModel):
@@ -70,11 +85,18 @@ def test_quantity_custom_unit_registry_with_custom_transformations():
 
 
 def test_quantity_custom_unit_registry_with_custom_transformations_context_switch():
-
     ureg = UnitRegistry()
     ctx = Context()
-    ctx.add_transformation("[length]", "[time]", lambda ureg, x: x / (100 * ureg.miles) * (1.5 * ureg.hours))
-    ctx.add_transformation("[time]", "[length]", lambda ureg, x: x / (1.5 * ureg.hours) * (100 * ureg.miles))
+    ctx.add_transformation(
+        "[length]",
+        "[time]",
+        lambda ureg, x: x / (100 * ureg.miles) * (1.5 * ureg.hours),
+    )
+    ctx.add_transformation(
+        "[time]",
+        "[length]",
+        lambda ureg, x: x / (1.5 * ureg.hours) * (100 * ureg.miles),
+    )
 
     class TestModel(BaseModel):
         value: Annotated[PlainQuantity, PydanticPintQuantity("hr", ureg=ureg)]

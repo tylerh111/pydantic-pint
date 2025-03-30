@@ -194,12 +194,16 @@ class PydanticPintQuantity:
 
     def _validate_dimensions(self, v: Number | Quantity):
         if self.dimensions is None:
-            raise TypeError(f"unknown error: dimensions are restricted but dimensions are none")
+            raise TypeError(
+                f"unknown error: dimensions are restricted but dimensions are none"
+            )
 
         if isinstance(v, Number):
             raise ValueError(f"must specify units with dimension restriction")
         elif not self.exact and isinstance(v, Quantity):
-            if v.is_compatible_with(next(iter(self.ureg._cache.dimensional_equivalents[self.dimensions]))):
+            if v.is_compatible_with(
+                next(iter(self.ureg._cache.dimensional_equivalents[self.dimensions]))
+            ):
                 return v
             raise ValueError(f"cannot convert to dimension '{self.dimensions}'")
         elif self.exact and isinstance(v, Quantity):

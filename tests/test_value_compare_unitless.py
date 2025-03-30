@@ -1,11 +1,9 @@
-
 from __future__ import annotations
 
 from pydantic_pint import PydanticPintValue, get_registry
 
 
 def test_value_compare_1percent():
-
     ureg = get_registry()
 
     value = PydanticPintValue(1, "percent")
@@ -16,7 +14,6 @@ def test_value_compare_1percent():
 
 
 def test_value_compare_1bit():
-
     ureg = get_registry()
 
     value = PydanticPintValue(1, "bit")

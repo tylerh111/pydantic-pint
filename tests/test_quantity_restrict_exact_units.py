@@ -1,9 +1,9 @@
-
 from __future__ import annotations
 
 import pytest
 from pint.facets.plain import PlainQuantity
 from pydantic import BaseModel, ValidationError
+
 from pydantic_pint import PydanticPintQuantity, get_registry
 
 try:
@@ -13,11 +13,12 @@ except ImportError:
 
 
 def test_quantity_restrict_nonstrict_nonexact_units():
-
     ureg = get_registry()
 
     class TestModel(BaseModel):
-        value: Annotated[PlainQuantity, PydanticPintQuantity("m", strict=False, exact=False)]
+        value: Annotated[
+            PlainQuantity, PydanticPintQuantity("m", strict=False, exact=False)
+        ]
 
     x = TestModel(value=1)
     assert x.value.m == 1
@@ -36,11 +37,12 @@ def test_quantity_restrict_nonstrict_nonexact_units():
 
 
 def test_quantity_restrict_strict_nonexact_units():
-
     ureg = get_registry()
 
     class TestModel(BaseModel):
-        value: Annotated[PlainQuantity, PydanticPintQuantity("m", strict=True, exact=False)]
+        value: Annotated[
+            PlainQuantity, PydanticPintQuantity("m", strict=True, exact=False)
+        ]
 
     with pytest.raises(ValidationError):
         TestModel(value=1)
@@ -57,11 +59,12 @@ def test_quantity_restrict_strict_nonexact_units():
 
 
 def test_quantity_restrict_nonstrict_exact_units():
-
     ureg = get_registry()
 
     class TestModel(BaseModel):
-        value: Annotated[PlainQuantity, PydanticPintQuantity("m", strict=False, exact=True)]
+        value: Annotated[
+            PlainQuantity, PydanticPintQuantity("m", strict=False, exact=True)
+        ]
 
     x = TestModel(value=1)
     assert x.value.m == 1
@@ -78,11 +81,12 @@ def test_quantity_restrict_nonstrict_exact_units():
 
 
 def test_quantity_restrict_strict_exact_units():
-
     ureg = get_registry()
 
     class TestModel(BaseModel):
-        value: Annotated[PlainQuantity, PydanticPintQuantity("m", strict=True, exact=True)]
+        value: Annotated[
+            PlainQuantity, PydanticPintQuantity("m", strict=True, exact=True)
+        ]
 
     with pytest.raises(ValidationError):
         TestModel(value=1)

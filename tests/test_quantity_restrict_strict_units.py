@@ -1,9 +1,9 @@
-
 from __future__ import annotations
 
 import pytest
 from pint.facets.plain import PlainQuantity
 from pydantic import BaseModel, ValidationError
+
 from pydantic_pint import PydanticPintQuantity, get_registry
 
 try:
@@ -13,7 +13,6 @@ except ImportError:
 
 
 def test_quantity_restrict_nonstrict_units_1m():
-
     ureg = get_registry()
 
     class TestModel(BaseModel):
@@ -26,7 +25,6 @@ def test_quantity_restrict_nonstrict_units_1m():
 
 
 def test_quantity_restrict_nonstrict_units_1km():
-
     ureg = get_registry()
 
     class TestModel(BaseModel):
@@ -39,7 +37,6 @@ def test_quantity_restrict_nonstrict_units_1km():
 
 
 def test_quantity_restrict_strict_units_1m():
-
     ureg = get_registry()
 
     class TestModel(BaseModel):
@@ -55,7 +52,6 @@ def test_quantity_restrict_strict_units_1m():
 
 
 def test_quantity_restrict_strict_units_1km():
-
     ureg = get_registry()
 
     class TestModel(BaseModel):

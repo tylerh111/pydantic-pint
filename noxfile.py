@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import glob
 import os.path
 from pathlib import Path
 from typing import Any, Mapping, Sequence
@@ -455,7 +454,9 @@ def release(session: nox.Session):
         dist / f"{package}-{version}.tar.gz",
     }
     if dist_files != dist_files_expected:
-        session.error(f"Distribution files do not seem to be for {package}_{version} release.")
+        session.error(
+            f"Distribution files do not seem to be for {package}_{version} release."
+        )
 
     def twine_upload_command():
         return [

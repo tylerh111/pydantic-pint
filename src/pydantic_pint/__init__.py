@@ -5,7 +5,7 @@ from __future__ import annotations
 try:
     from ._version import __version__
 except ImportError:
-    __version__ = "0.1"
+    __version__ = "0.2"
 
 
 __all__ = [
@@ -17,5 +17,5 @@ __all__ = [
 ]
 
 from .quantity import PydanticPintQuantity
-from .value import PydanticPintValue
 from .registry import app_registry, get_registry, set_registry
+from .value import PydanticPintValue

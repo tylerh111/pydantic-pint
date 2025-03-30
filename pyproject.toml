@@ -85,7 +85,7 @@ changes       = "https://github.com/tylerh111/pydantic-pint/blob/main/CHANGES.md
 documentation = "https://pydantic-pint.readthedocs.io"
 
 [tool.bumpver]
-current_version = "0.1"
+current_version = "0.2"
 version_pattern = "MAJOR.MINOR[.PATCH][-TAG]"
 commit_message = "release version {new_version}"
 commit = true
@@ -94,7 +94,7 @@ push = false
 
 [tool.bumpver.file_patterns]
 "LICENSE.md" = [
-    'Copyright (c) YYYY',
+    'Copyright (c) 2024-YYYY',
 ]
 "pyproject.toml" = [
     'current_version = "{version}"',
@@ -157,16 +157,18 @@ filename = "CHANGES.md"
 start_string = "<!-- release notes -->\n"
 underlines = ["", "", ""]
 title_format = "## [{version}](https://github.com/tylerh111/pydantic-pint/releases/tag/{version}) - {project_date}"
-issue_format = "[{issue}](https://github.com/tylerh111/pydantic-pint/issues/{issues})"
+issue_format = "[{issue}](https://github.com/tylerh111/pydantic-pint/issues/{issue})"
 type = [
-    { name = "Features", directory = "feature", showcontent = true },
-    { name = "Changes", directory = "changes", showcontent = true },
-    { name = "Fixes", directory = "fix", showcontent = true },
-    { name = "Documentation", directory = "docs", showcontent = true },
+    { name = "Security", directory = "security", showcontent = true},
+    { name = "Removed", directory = "remove", showcontent = true},
+    { name = "Deprecated", directory = "deprecated", showcontent = true},
+    { name = "Added", directory = "add", showcontent = true},
+    { name = "Changed", directory = "change", showcontent = true},
+    { name = "Fixed", directory = "fix", showcontent = true},
     { name = "Misc", directory = "misc", showcontent = false },
 ]
 
 [tool.setuptools_scm]
 version_scheme = "no-guess-dev"
 write_to = "src/pydantic_pint/_version.py"
-fallback_version = "0.1"
+fallback_version = "0.2"

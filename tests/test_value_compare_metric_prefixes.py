@@ -1,11 +1,9 @@
-
 from __future__ import annotations
 
 from pydantic_pint import PydanticPintValue, get_registry
 
 
 def test_value_compare_1Tm():
-
     ureg = get_registry()
 
     value = PydanticPintValue(1, "Tm")
@@ -16,7 +14,6 @@ def test_value_compare_1Tm():
 
 
 def test_value_compare_1Gm():
-
     ureg = get_registry()
 
     value = PydanticPintValue(1, "Gm")
@@ -27,7 +24,6 @@ def test_value_compare_1Gm():
 
 
 def test_value_compare_1Mm():
-
     ureg = get_registry()
 
     value = PydanticPintValue(1, "Mm")
@@ -38,7 +34,6 @@ def test_value_compare_1Mm():
 
 
 def test_value_compare_1km():
-
     ureg = get_registry()
 
     value = PydanticPintValue(1, "km")
@@ -49,7 +44,6 @@ def test_value_compare_1km():
 
 
 def test_value_compare_1hm():
-
     ureg = get_registry()
 
     value = PydanticPintValue(1, "hm")
@@ -60,7 +54,6 @@ def test_value_compare_1hm():
 
 
 def test_value_compare_1dam():
-
     ureg = get_registry()
 
     value = PydanticPintValue(1, "dam")
@@ -71,7 +64,6 @@ def test_value_compare_1dam():
 
 
 def test_value_compare_1m():
-
     ureg = get_registry()
 
     value = PydanticPintValue(1, "m")
@@ -82,7 +74,6 @@ def test_value_compare_1m():
 
 
 def test_value_compare_1dm():
-
     ureg = get_registry()
 
     value = PydanticPintValue(1, "dm")
@@ -93,7 +84,6 @@ def test_value_compare_1dm():
 
 
 def test_value_compare_1cm():
-
     ureg = get_registry()
 
     value = PydanticPintValue(1, "cm")
@@ -104,7 +94,6 @@ def test_value_compare_1cm():
 
 
 def test_value_compare_1mm():
-
     ureg = get_registry()
 
     value = PydanticPintValue(1, "mm")
@@ -115,7 +104,6 @@ def test_value_compare_1mm():
 
 
 def test_value_compare_1μm():
-
     ureg = get_registry()
 
     value = PydanticPintValue(1, "μm")
@@ -126,7 +114,6 @@ def test_value_compare_1μm():
 
 
 def test_value_compare_1nm():
-
     ureg = get_registry()
 
     value = PydanticPintValue(1, "nm")
@@ -137,7 +124,6 @@ def test_value_compare_1nm():
 
 
 def test_value_compare_1pm():
-
     ureg = get_registry()
 
     value = PydanticPintValue(1, "pm")

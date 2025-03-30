@@ -1,9 +1,9 @@
-
 from __future__ import annotations
 
 import pytest
 from pint.facets.plain import PlainQuantity
 from pydantic import BaseModel, ValidationError
+
 from pydantic_pint import PydanticPintQuantity, get_registry
 
 try:
@@ -13,7 +13,6 @@ except ImportError:
 
 
 def test_quantity_construction_number_nonstrict():
-
     ureg = get_registry()
 
     class TestModel(BaseModel):
@@ -26,7 +25,6 @@ def test_quantity_construction_number_nonstrict():
 
 
 def test_quantity_construction_number_strict():
-
     class TestModel(BaseModel):
         value: Annotated[PlainQuantity, PydanticPintQuantity("m", strict=True)]
 
@@ -35,7 +33,6 @@ def test_quantity_construction_number_strict():
 
 
 def test_quantity_construction_str_nonstrict():
-
     ureg = get_registry()
 
     class TestModel(BaseModel):
@@ -53,7 +50,6 @@ def test_quantity_construction_str_nonstrict():
 
 
 def test_quantity_construction_str_strict():
-
     ureg = get_registry()
 
     class TestModel(BaseModel):
@@ -69,7 +65,6 @@ def test_quantity_construction_str_strict():
 
 
 def test_quantity_construction_dict_nonstrict():
-
     ureg = get_registry()
 
     class TestModel(BaseModel):
@@ -87,7 +82,6 @@ def test_quantity_construction_dict_nonstrict():
 
 
 def test_quantity_construction_dict_strict():
-
     ureg = get_registry()
 
     class TestModel(BaseModel):
@@ -97,7 +91,6 @@ def test_quantity_construction_dict_strict():
     assert x.value.m == 1
     assert x.value.u == ureg.Unit("m")
     assert x.value == ureg("1m")
-
 
     with pytest.raises(ValidationError):
         TestModel(value={"magnitude": 1})
