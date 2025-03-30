@@ -157,7 +157,7 @@ filename = "CHANGES.md"
 start_string = "<!-- release notes -->\n"
 underlines = ["", "", ""]
 title_format = "## [{version}](https://github.com/tylerh111/pydantic-pint/releases/tag/{version}) - {project_date}"
-issue_format = "[{issue}](https://github.com/tylerh111/pydantic-pint/issues/{issues})"
+issue_format = "[{issue}](https://github.com/tylerh111/pydantic-pint/issues/{issue})"
 type = [
     { name = "Features", directory = "feature", showcontent = true },
     { name = "Changes", directory = "changes", showcontent = true },
