@@ -2,32 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://pydantic-pint.readthedocs.io/latest/</loc>
-         <lastmod>2024-05-07</lastmod>
-         <changefreq>daily</changefreq>
+         <lastmod>2025-03-30</lastmod>
     </url>
     <url>
          <loc>https://pydantic-pint.readthedocs.io/latest/changes/</loc>
-         <lastmod>2024-05-07</lastmod>
-         <changefreq>daily</changefreq>
+         <lastmod>2025-03-30</lastmod>
     </url>
     <url>
          <loc>https://pydantic-pint.readthedocs.io/latest/contributing/</loc>
-         <lastmod>2024-05-07</lastmod>
-         <changefreq>daily</changefreq>
+         <lastmod>2025-03-30</lastmod>
     </url>
     <url>
          <loc>https://pydantic-pint.readthedocs.io/latest/license/</loc>
-         <lastmod>2024-05-07</lastmod>
-         <changefreq>daily</changefreq>
+         <lastmod>2025-03-30</lastmod>
     </url>
     <url>
          <loc>https://pydantic-pint.readthedocs.io/latest/usage/</loc>
-         <lastmod>2024-05-07</lastmod>
-         <changefreq>daily</changefreq>
+         <lastmod>2025-03-30</lastmod>
     </url>
     <url>
          <loc>https://pydantic-pint.readthedocs.io/latest/api/quantity/</loc>
-         <lastmod>2024-05-07</lastmod>
-         <changefreq>daily</changefreq>
+         <lastmod>2025-03-30</lastmod>
+    </url>
+    <url>
+         <loc>https://pydantic-pint.readthedocs.io/latest/api/registry/</loc>
+         <lastmod>2025-03-30</lastmod>
+    </url>
+    <url>
+         <loc>https://pydantic-pint.readthedocs.io/latest/api/value/</loc>
+         <lastmod>2025-03-30</lastmod>
     </url>
 </urlset>
