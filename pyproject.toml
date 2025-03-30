@@ -85,7 +85,7 @@ changes       = "https://github.com/tylerh111/pydantic-pint/blob/main/CHANGES.md
 documentation = "https://pydantic-pint.readthedocs.io"
 
 [tool.bumpver]
-current_version = "0.1"
+current_version = "0.2"
 version_pattern = "MAJOR.MINOR[.PATCH][-TAG]"
 commit_message = "release version {new_version}"
 commit = true
@@ -169,4 +169,4 @@ type = [
 [tool.setuptools_scm]
 version_scheme = "no-guess-dev"
 write_to = "src/pydantic_pint/_version.py"
-fallback_version = "0.1"
+fallback_version = "0.2"
