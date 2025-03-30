@@ -213,3 +213,5 @@ nav:
   - API Documentation:
     - Pydantic Pint:
       - Quantity: api/quantity.md
+      - Registry: api/registry.md
+      - Value: api/value.md
