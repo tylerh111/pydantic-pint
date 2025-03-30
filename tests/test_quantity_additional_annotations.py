@@ -152,7 +152,7 @@ def test_quantity_additional_annotations_field_lt():
     assert TestModel(value="-1cm").value == ureg("-1cm")
 
 
-def test_quantity_additional_annotations_field_lt():
+def test_quantity_additional_annotations_field_multiple_of():
     ureg = get_registry()
 
     class TestModel(BaseModel):
