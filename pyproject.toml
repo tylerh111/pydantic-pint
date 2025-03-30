@@ -159,10 +159,12 @@ underlines = ["", "", ""]
 title_format = "## [{version}](https://github.com/tylerh111/pydantic-pint/releases/tag/{version}) - {project_date}"
 issue_format = "[{issue}](https://github.com/tylerh111/pydantic-pint/issues/{issue})"
 type = [
-    { name = "Features", directory = "feature", showcontent = true },
-    { name = "Changes", directory = "changes", showcontent = true },
-    { name = "Fixes", directory = "fix", showcontent = true },
-    { name = "Documentation", directory = "docs", showcontent = true },
+    { name = "Security", directory = "security", showcontent = true},
+    { name = "Removed", directory = "remove", showcontent = true},
+    { name = "Deprecated", directory = "deprecated", showcontent = true},
+    { name = "Added", directory = "add", showcontent = true},
+    { name = "Changed", directory = "change", showcontent = true},
+    { name = "Fixed", directory = "fix", showcontent = true},
     { name = "Misc", directory = "misc", showcontent = false },
 ]
 
