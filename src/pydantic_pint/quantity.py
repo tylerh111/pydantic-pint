@@ -180,7 +180,7 @@ class PydanticPintQuantity:
             raise TypeError(f"unknown error: units are restricted but units are none")
 
         if not self.strict and isinstance(v, Number):
-            return v * self.units
+            return self.ureg.Quantity(v, self.units)
         elif self.strict and isinstance(v, Number):
             raise ValueError(f"must specify units with 'strict' flag enabled")
         elif not self.exact and isinstance(v, Quantity):
