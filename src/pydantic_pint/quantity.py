@@ -201,8 +201,11 @@ class PydanticPintQuantity:
         if isinstance(v, Number):
             raise ValueError(f"must specify units with dimension restriction")
         elif not self.exact and isinstance(v, Quantity):
-            if v.is_compatible_with(
-                next(iter(self.ureg._cache.dimensional_equivalents[self.dimensions]))
+            if (
+                v.check(self.dimensions) or
+                any(v.is_compatible_with(dim) for dim in
+                    self.ureg._cache.dimensional_equivalents.get(self.dimensions, [])
+                )
             ):
                 return v
             raise ValueError(f"cannot convert to dimension '{self.dimensions}'")

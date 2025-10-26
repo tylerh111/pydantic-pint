@@ -112,3 +112,17 @@ def test_quantity_restrict_dimensions_length_input_with_custom_transformations_e
 
     with pytest.raises(ValidationError):
         TestModel(value="1.5hr")
+
+
+def test_quantity_restrict_dimensions_with_no_default_units_defined():
+    ureg = UnitRegistry()
+
+    class TestModel(BaseModel):
+        value: Annotated[
+            PlainQuantity, PydanticPintQuantity("[conductivity]", exact=False, ureg=ureg)
+        ]
+
+    x = TestModel(value="1 S/m")
+    assert x.value.m == 1
+    assert x.value.u == ureg.Unit("S/m")
+    assert x.value == ureg("1 S/m")
