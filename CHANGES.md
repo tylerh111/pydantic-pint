@@ -6,6 +6,14 @@ All notable changes to this project will be documented in this file.
 
 <!-- release notes -->
 
+## [0.3](https://github.com/tylerh111/pydantic-pint/releases/tag/0.3) - 2025-10-26
+
+### Fixed
+
+- Fixed issue where non-multiplicative units (e.g. degrees Celsius or degrees Fahrenheits) were not being validated correctly. ([44](https://github.com/tylerh111/pydantic-pint/issues/44))
+- Fixed issue where dimensions without a default unit cannot be validated. ([47](https://github.com/tylerh111/pydantic-pint/issues/47))
+
+
 ## [0.2](https://github.com/tylerh111/pydantic-pint/releases/tag/0.2) - 2025-03-30
 
 ### Added
