@@ -11,7 +11,46 @@ from pydantic_pint.registry import get_registry
 
 __all__ = [
     "pydantic_pint_value",
+    "pydantic_pint_value_schema",
+    "inject_pydantic_schema",
 ]
+
+
+def pydantic_pint_value_schema() -> SchemaSerializer:
+    """The schema that can serialize a `pint.Quantity`.
+
+    Returns:
+        The serializer schema for Pydantic.
+    """
+    return SchemaSerializer(
+        core_schema.any_schema(
+            serialization=core_schema.plain_serializer_function_ser_schema(
+                lambda v: str(v),
+                info_arg=False,
+                when_used="always",
+            )
+        )
+    )
+
+
+def inject_pydantic_schema(
+    quantity: pint.Quantity,
+) -> pint.Quantity:
+    """Adds the Pydantic serializer schema to a Pint quantity.
+
+    Args:
+        quantity: The Pint quantity.
+
+    Returns:
+        The same Pint quantity with a pydantic schema.
+    """
+    setattr(
+        quantity,
+        "__pydantic_serializer__",
+        pydantic_pint_value_schema(),
+    )
+
+    return quantity
 
 
 def pydantic_pint_value(
@@ -21,7 +60,7 @@ def pydantic_pint_value(
     *,
     ureg: pint.UnitRegistry | None = None,
 ) -> pint.Quantity:
-    """Construct `pint.Quantity` with an injected Pydantic schema.
+    """Construct `pint.Quantity` with an injected Pydantic serialization schema.
 
     A serialization schema is added to a Pint quantity to allow it to be serialized
     by pydantic. This in-turn allows Pint values to be used in a `pydantic.Field`
@@ -42,20 +81,7 @@ def pydantic_pint_value(
     """
     ureg = ureg if ureg else get_registry()
     inst = ureg.Quantity(value, units)
-
-    schema = SchemaSerializer(
-        core_schema.any_schema(
-            serialization=core_schema.plain_serializer_function_ser_schema(
-                lambda v: str(v),
-                info_arg=False,
-                when_used="always",
-            )
-        )
-    )
-
-    setattr(inst, "__pydantic_serializer__", schema)
-
-    return inst
+    return inject_pydantic_schema(inst)
 
 
 # for compatibility
