@@ -118,7 +118,7 @@ If strict mode is disabled, then users may input a number (i.e. [`numbers.Number
 
 ### Value Restrictions with `pydantic.Field`
 
-The `PydanticPintValue` class is a wrapper for a `pint.Quantity` instance.
+The `pydantic_pint_value` function is a wrapper for a `pint.Quantity` instance.
 It adds methods to the `pint.Quantity` instance that allows Pydantic to interface with it.
 This in turn gives `pint.Quantity` the ability to be used within the field comparison restrictions.
 Note, the `Field` must be specified in as an annotation instead of assigned to the field.
@@ -127,11 +127,11 @@ Note, the `Field` must be specified in as an annotation instead of assigned to t
 ureg = pint.UnitRegistry()
 
 class Model(BaseModel):
-    positive:     Annotated[Quantity, PydanticPintQuantity("m", ureg=ureg), Field(gt=PydanticPintValue(0, "m", ureg=ureg))]
-    non_negative: Annotated[Quantity, PydanticPintQuantity("m", ureg=ureg), Field(ge=PydanticPintValue(0, "m", ureg=ureg))]
-    negative:     Annotated[Quantity, PydanticPintQuantity("m", ureg=ureg), Field(lt=PydanticPintValue(0, "m", ureg=ureg))]
-    non_positive: Annotated[Quantity, PydanticPintQuantity("m", ureg=ureg), Field(le=PydanticPintValue(0, "m", ureg=ureg))]
-    even:         Annotated[Quantity, PydanticPintQuantity("m", ureg=ureg), Field(multiple_of=PydanticPintValue(2, "m", ureg=ureg))]
+    positive:     Annotated[Quantity, PydanticPintQuantity("m", ureg=ureg), Field(gt=pydantic_pint_value(0, "m", ureg=ureg))]
+    non_negative: Annotated[Quantity, PydanticPintQuantity("m", ureg=ureg), Field(ge=pydantic_pint_value(0, "m", ureg=ureg))]
+    negative:     Annotated[Quantity, PydanticPintQuantity("m", ureg=ureg), Field(lt=pydantic_pint_value(0, "m", ureg=ureg))]
+    non_positive: Annotated[Quantity, PydanticPintQuantity("m", ureg=ureg), Field(le=pydantic_pint_value(0, "m", ureg=ureg))]
+    even:         Annotated[Quantity, PydanticPintQuantity("m", ureg=ureg), Field(multiple_of=pydantic_pint_value(2, "m", ureg=ureg))]
 
 model = Model(
     positive="1m",

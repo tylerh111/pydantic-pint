@@ -4,7 +4,7 @@ import pytest
 from pint.facets.plain import PlainQuantity
 from pydantic import BaseModel, Field, ValidationError
 
-from pydantic_pint import PydanticPintQuantity, PydanticPintValue, get_registry
+from pydantic_pint import PydanticPintQuantity, pydantic_pint_value, get_registry
 
 try:
     from typing import Annotated
@@ -19,7 +19,7 @@ def test_quantity_additional_annotations_field_gt():
         value: Annotated[
             PlainQuantity,
             PydanticPintQuantity("m", strict=False),
-            Field(gt=PydanticPintValue(0, "m", ureg=ureg)),
+            Field(gt=pydantic_pint_value(0, "m", ureg=ureg)),
         ]
 
     # positive
@@ -56,7 +56,7 @@ def test_quantity_additional_annotations_field_ge():
         value: Annotated[
             PlainQuantity,
             PydanticPintQuantity("m", strict=False),
-            Field(ge=PydanticPintValue(0, "m", ureg=ureg)),
+            Field(ge=pydantic_pint_value(0, "m", ureg=ureg)),
         ]
 
     # positive
@@ -89,7 +89,7 @@ def test_quantity_additional_annotations_field_le():
         value: Annotated[
             PlainQuantity,
             PydanticPintQuantity("m", strict=False),
-            Field(le=PydanticPintValue(0, "m", ureg=ureg)),
+            Field(le=pydantic_pint_value(0, "m", ureg=ureg)),
         ]
 
     # positive
@@ -122,7 +122,7 @@ def test_quantity_additional_annotations_field_lt():
         value: Annotated[
             PlainQuantity,
             PydanticPintQuantity("m", strict=False),
-            Field(lt=PydanticPintValue(0, "m", ureg=ureg)),
+            Field(lt=pydantic_pint_value(0, "m", ureg=ureg)),
         ]
 
     # positive
@@ -159,7 +159,7 @@ def test_quantity_additional_annotations_field_multiple_of():
         value: Annotated[
             PlainQuantity,
             PydanticPintQuantity("m", strict=False),
-            Field(multiple_of=PydanticPintValue(2, "m", ureg=ureg)),
+            Field(multiple_of=pydantic_pint_value(2, "m", ureg=ureg)),
         ]
 
     # no units
