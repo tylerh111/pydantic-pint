@@ -169,9 +169,31 @@ type = [
 [tool.setuptools_scm]
 version_scheme = "no-guess-dev"
 write_to = "src/pydantic_pint/_version.py"
-fallback_version = "0.3"
+fallback_version = "0.4.0"
 
 [dependency-groups]
+build = [
+    "build>=1.4.0",
+    "twine>=6.2.0",
+]
+
+docs = [
+    "mkdocs-material>=9.7.1",
+    "mkdocstrings-python>=2.0.1",
+]
+lint = [
+    "mypy>=1.19.1",
+    "pylint>=4.0.4",
+    "ruff>=0.14.13",
+]
+tests = [
+    "nox>=2025.11.12",
+    "pytest>=9.0.2",
+    "pytest-cov>=7.0.0",
+]
 dev = [
-    "pytest>=8.3.5",
+    { include-group = "tests" },
+    { include-group = "lint" },
+    { include-group = "docs" },
+    { include-group = "build" },
 ]
