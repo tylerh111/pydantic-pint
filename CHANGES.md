@@ -2,7 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased](https://github.com/tylerh111/pydantic-pint/compare/0.0...main)
+## [Unreleased]()
+
+**Breaking Change:** v0.4+ requires Python 3.11. For older systems, use v0.3.
 
 <!-- release notes -->
 

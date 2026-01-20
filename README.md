@@ -43,6 +43,12 @@ It also requires [`typing.Annotated`](https://docs.python.org/3/library/typing.h
 pip install pydantic-pint
 ```
 
+Alternatively, using [UV](https://github.com/astral-sh/uv) (a fast Python package installer):
+
+```shell
+uv pip install pydantic-pint
+```
+
 ### Usage
 
 Pydantic Pint provides `PydanticPintQuantity` which enabled Pydantic validation for Pint quantities.

@@ -10,7 +10,7 @@ authors = [
 ]
 readme = "README.md"
 license = { file = "LICENSE.md" }
-requires-python = ">=3.8"
+requires-python = ">=3.11"
 keywords = [
     "pydantic-pint",
     "pydantic",
@@ -24,10 +24,6 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
@@ -87,7 +83,7 @@ changes       = "https://github.com/tylerh111/pydantic-pint/blob/main/CHANGES.md
 documentation = "https://pydantic-pint.readthedocs.io"
 
 [tool.bumpver]
-current_version = "0.3"
+current_version = "0.4.0"
 version_pattern = "MAJOR.MINOR[.PATCH][-TAG]"
 commit_message = "release version {new_version}"
 commit = true
@@ -128,7 +124,7 @@ pythonpath = "src"
 [tool.ruff]
 line-length = 88
 indent-width = 4
-target-version = "py38"
+target-version = "py311"
 
 [tool.ruff.lint]
 # see rules at https://docs.astral.sh/ruff/rules
@@ -174,3 +170,8 @@ type = [
 version_scheme = "no-guess-dev"
 write_to = "src/pydantic_pint/_version.py"
 fallback_version = "0.3"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+]
