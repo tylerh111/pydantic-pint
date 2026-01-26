@@ -2,7 +2,13 @@
 
 from __future__ import annotations
 
+import sys
 from numbers import Number
+
+if sys.version_info >= (3, 13):
+    from warnings import deprecated
+else:
+    from typing_extensions import deprecated
 
 import pint
 from pydantic_core import SchemaSerializer, core_schema
@@ -84,18 +90,19 @@ def pydantic_pint_value(
     return inject_pydantic_schema(inst)
 
 
-# for compatibility
-PydanticPintValue = pydantic_pint_value
-"""Proxy class for a Pint Quantity instance with pydantic serialization.
+@deprecated("use `pydantic_pint_value` instead")
+def PydanticPintValue(*args, **kwargs) -> pint.Quantity:
+    """Proxy class for a Pint Quantity instance with pydantic serialization.
 
-!!! warning
+    !!! warning
 
-    The name `PydanticPintQuantity` is deprecated. Use `pydantic_pint_value` instead.
+        The name `PydanticPintQuantity` is deprecated. Use `pydantic_pint_value` instead.
 
-Unlink `PydanticPintQuantity`, `PydanticPintValue` wraps an instance of a pint
-quantity. Methods are added to allow it to interact with pydantic, e.g. serialization.
-The class immediately resolves to a `pint.Quantity` upon construction. The primary
-use for `PydanticPintValue` is in `pydantic.Field` comparison restrictions.
+    Unlike `PydanticPintQuantity`, `PydanticPintValue` wraps an instance of a pint
+    quantity. Methods are added to allow it to interact with pydantic, e.g. serialization.
+    The class immediately resolves to a `pint.Quantity` upon construction. The primary
+    use for `PydanticPintValue` is in `pydantic.Field` comparison restrictions.
 
-See `pydantic_pint_value` for more details.
-"""
+    See `pydantic_pint_value` for more details.
+    """
+    return pydantic_pint_value(*args, **kwargs)
