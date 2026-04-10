@@ -6,6 +6,14 @@ All notable changes to this project will be documented in this file.
 
 <!-- release notes -->
 
+## [0.4](https://github.com/tylerh111/pydantic-pint/releases/tag/0.4) - 2026-04-09
+
+### Added
+
+- Add mypy support with `py.typed` and fixed any type hint issues.
+  Note, `python==3.8` still has type hint issues due to low mypy version available. ([50](https://github.com/tylerh111/pydantic-pint/issues/50))
+
+
 ## [0.3](https://github.com/tylerh111/pydantic-pint/releases/tag/0.3) - 2025-10-26
 
 ### Fixed
