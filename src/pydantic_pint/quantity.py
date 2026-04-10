@@ -10,9 +10,14 @@ if TYPE_CHECKING:
 
 import pint
 from pint.facets.plain.quantity import PlainQuantity as Quantity
+from pint.facets.context.objects import Context
 from pydantic_core import core_schema
 
 from pydantic_pint.registry import get_registry
+
+__all__ = [
+    "PydanticPintQuantity",
+]
 
 
 class PydanticPintQuantity:
@@ -59,7 +64,7 @@ class PydanticPintQuantity:
         /,
         *,
         ureg: pint.UnitRegistry | None = None,
-        ureg_contexts: Iterable[str | pint.Context] | None = None,
+        ureg_contexts: Iterable[str | Context] | None = None,
         restriction: Literal["units", "dimensions"] | None = None,
         ser_mode: Literal["str", "dict", "number"] | None = None,
         strict: bool = True,
@@ -83,7 +88,7 @@ class PydanticPintQuantity:
 
         if self.restriction is None or self.restriction == "units":
             try:
-                _units = self.ureg(_arg).units
+                _units = self.ureg(_arg).units  # type: ignore
                 _dims = _units.dimensionality
                 self.restriction = "units"
             except AttributeError:
@@ -93,7 +98,7 @@ class PydanticPintQuantity:
         if self.restriction is None or self.restriction == "dimensions":
             try:
                 _units = None
-                _dims = self.ureg.get_dimensionality(_arg)
+                _dims = self.ureg.get_dimensionality(_arg)  # type: ignore
                 self.restriction = "dimensions"
             except ValueError:
                 if self.restriction == "dimensions":
@@ -237,7 +242,7 @@ class PydanticPintQuantity:
         Returns:
             The serialized `pint.Quantity`.
         """
-        to_json = to_json or (info and info.mode_is_json())
+        to_json = to_json or (info is not None and info.mode_is_json())
 
         if self.ser_mode == "dict":
             return {

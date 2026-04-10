@@ -11,7 +11,7 @@ __all__ = [
 ]
 
 
-_DEFAULT_REGISTRY = pint.LazyRegistry()
+_DEFAULT_REGISTRY: pint.LazyRegistry = pint.LazyRegistry()
 
 app_registry = pint.ApplicationRegistry(_DEFAULT_REGISTRY)
 """Pydantic Pint default application registry."""

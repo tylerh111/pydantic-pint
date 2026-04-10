@@ -121,6 +121,11 @@ exclude_also = [
     "@(abc\\.)?abstractmethod",
 ]
 
+[tool.mypy]
+plugins = [
+    "pydantic.mypy",
+]
+
 [tool.pytest.ini_options]
 addopts = ["--import-mode=importlib"]
 pythonpath = "src"
