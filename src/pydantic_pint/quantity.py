@@ -296,7 +296,10 @@ class PydanticPintQuantity:
                         core_schema.typed_dict_schema(_from_typedict_schema),
                     ]
                 ),
-                core_schema.with_info_plain_validator_function(self.validate),
+                core_schema.with_info_before_validator_function(
+                    self.validate,
+                    core_schema.is_instance_schema(Quantity),
+                ),
             ]
         )
 
@@ -308,7 +311,10 @@ class PydanticPintQuantity:
                         core_schema.typed_dict_schema(_from_typedict_schema),
                     ]
                 ),
-                core_schema.no_info_plain_validator_function(self.validate),
+                core_schema.with_info_before_validator_function(
+                    self.validate,
+                    core_schema.any_schema(),
+                ),
             ]
         )
 
