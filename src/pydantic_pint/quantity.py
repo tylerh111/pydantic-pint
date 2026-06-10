@@ -150,13 +150,19 @@ class PydanticPintQuantity:
         except KeyError as e:
             raise ValueError("no `magnitude` or `units` keys found") from e
 
+        # try converting to a number before parsing expression
+        # required for pint>=0.25.3
+        try:
+            v = float(v)
+        except (ValueError, TypeError):
+            pass
+
         try:
             if isinstance(v, str):
-                # relies on ureg to return a number if no units are present
                 # if value is a quantity, then units are present and check on the units being convertible
                 # if value is a number, then check on strict mode will happen next
                 v = self.ureg(v)
-        except pint.UndefinedUnitError as e:
+        except pint.PintError as e:
             raise ValueError(e) from e
 
         try:
