@@ -227,7 +227,7 @@ class PydanticPintQuantity:
         info: core_schema.SerializationInfo | None = None,
         *,
         to_json: bool = False,
-    ) -> dict | str | Quantity:
+    ) -> dict | str | Number | Quantity:
         """Serialize `PydanticPintQuantity`.
 
         Args:
@@ -318,9 +318,24 @@ class PydanticPintQuantity:
             ]
         )
 
+        if self.ser_mode == "dict":
+            _ser_return_schema = core_schema.typed_dict_schema(
+                {
+                    "magnitude": core_schema.typed_dict_field(core_schema.float_schema()),
+                    "units": core_schema.typed_dict_field(core_schema.str_schema()),
+                }
+            )
+        elif self.ser_mode == "number":
+            _ser_return_schema = core_schema.float_schema()
+        else:
+            # self.ser_mode == "str"
+            # serialization defaults to `str` in JSON serialization mode
+            _ser_return_schema = core_schema.str_schema()
+
         serialize_schema = core_schema.plain_serializer_function_ser_schema(
             self.serialize,
             info_arg=True,
+            return_schema=_ser_return_schema,
         )
 
         return core_schema.json_or_python_schema(
