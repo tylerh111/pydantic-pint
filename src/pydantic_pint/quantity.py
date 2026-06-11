@@ -150,13 +150,19 @@ class PydanticPintQuantity:
         except KeyError as e:
             raise ValueError("no `magnitude` or `units` keys found") from e
 
+        # try converting to a number before parsing expression
+        # required for pint>=0.25.3
+        try:
+            v = float(v)
+        except (ValueError, TypeError):
+            pass
+
         try:
             if isinstance(v, str):
-                # relies on ureg to return a number if no units are present
                 # if value is a quantity, then units are present and check on the units being convertible
                 # if value is a number, then check on strict mode will happen next
                 v = self.ureg(v)
-        except pint.UndefinedUnitError as e:
+        except pint.PintError as e:
             raise ValueError(e) from e
 
         try:
@@ -227,7 +233,7 @@ class PydanticPintQuantity:
         info: core_schema.SerializationInfo | None = None,
         *,
         to_json: bool = False,
-    ) -> dict | str | Quantity:
+    ) -> dict | str | Number | Quantity:
         """Serialize `PydanticPintQuantity`.
 
         Args:
@@ -296,7 +302,10 @@ class PydanticPintQuantity:
                         core_schema.typed_dict_schema(_from_typedict_schema),
                     ]
                 ),
-                core_schema.with_info_plain_validator_function(self.validate),
+                core_schema.with_info_before_validator_function(
+                    self.validate,
+                    core_schema.is_instance_schema(Quantity),
+                ),
             ]
         )
 
@@ -308,13 +317,31 @@ class PydanticPintQuantity:
                         core_schema.typed_dict_schema(_from_typedict_schema),
                     ]
                 ),
-                core_schema.no_info_plain_validator_function(self.validate),
+                core_schema.with_info_before_validator_function(
+                    self.validate,
+                    core_schema.any_schema(),
+                ),
             ]
         )
+
+        if self.ser_mode == "dict":
+            _ser_return_schema = core_schema.typed_dict_schema(
+                {
+                    "magnitude": core_schema.typed_dict_field(core_schema.float_schema()),
+                    "units": core_schema.typed_dict_field(core_schema.str_schema()),
+                }
+            )
+        elif self.ser_mode == "number":
+            _ser_return_schema = core_schema.float_schema()
+        else:
+            # self.ser_mode == "str"
+            # serialization defaults to `str` in JSON serialization mode
+            _ser_return_schema = core_schema.str_schema()
 
         serialize_schema = core_schema.plain_serializer_function_ser_schema(
             self.serialize,
             info_arg=True,
+            return_schema=_ser_return_schema,
         )
 
         return core_schema.json_or_python_schema(

@@ -117,6 +117,12 @@ def test_quantity_restrict_dimensions_length_input_with_custom_transformations_e
 def test_quantity_restrict_dimensions_with_no_default_units_defined():
     ureg = UnitRegistry()
 
+    # only run this test if conductivity is an acceptable dimension
+    try:
+        ureg.get_dimensionality("[conductivity]")
+    except (ValueError, KeyError):
+        return
+
     class TestModel(BaseModel):
         value: Annotated[
             PlainQuantity, PydanticPintQuantity("[conductivity]", exact=False, ureg=ureg)
