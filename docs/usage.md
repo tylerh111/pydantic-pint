@@ -1,4 +1,8 @@
+---
+icon: lucide/play
+---
 
+# Usage
 
 ## Quantity Validation
 
@@ -85,7 +89,7 @@ This means there is no common / default unit for that field.
 
 By default, strict mode is enabled which forces users to include units when instantiating the model.
 Only `str`s, `dict`s, and `pint.Quantity`s can be used to construct the field.
-If strict mode is disabled, then users may input a number (i.e. [`numbers.Number`][]), and the serialization will use the units specified in the annotation.
+If strict mode is disabled, then users may input a number (i.e. [`numbers.Number`](https://docs.python.org/3/library/numbers.html#numbers.Number)), and the serialization will use the units specified in the annotation.
 
 === "Strict mode enabled (default)"
 

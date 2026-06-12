@@ -1,2 +1,0 @@
-
-::: pydantic_pint.quantity

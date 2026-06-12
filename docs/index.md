@@ -1,3 +1,8 @@
+---
+title: Welcome
+icon: lucide/star
+---
+
 # Pydantic Pint
 
 [![_](https://img.shields.io/pypi/v/pydantic-pint)](https://pypi.python.org/pypi/pydantic-pint)
@@ -30,9 +35,9 @@ box = Box(
 )
 ```
 
-## Getting Started
+<!-- ## Getting Started -->
 
-### Installation
+## Installation
 
 Pydantic Pint is available as [`pydantic-pint`](https://pypi.python.org/pypi/pydantic-pint) on PyPI.
 
@@ -43,7 +48,7 @@ It also requires [`typing.Annotated`](https://docs.python.org/3/library/typing.h
 pip install pydantic-pint
 ```
 
-### Usage
+## Usage
 
 Pydantic Pint provides `PydanticPintQuantity` which enabled Pydantic validation for Pint quantities.
 For a field of a Pydantic model to have quantity validation, it must be annotated with a `PydanticPintQuantity` for a given unit.
