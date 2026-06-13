@@ -152,7 +152,6 @@ required-imports = ["from __future__ import annotations"]
 "**/{docs,tests,tools}/*" = ["E402", "D"]
 "**/notebooks/**/*.ipynb" = ["E402"]
 "*.pyi" = ["I002"]
-"noxfile.py" = ["D"]
 
 [tool.ruff.format]
 quote-style = "double"
