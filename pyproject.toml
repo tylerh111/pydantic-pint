@@ -45,39 +45,48 @@ dynamic = [
     "version",
 ]
 
-[project.optional-dependencies]
+[project.urls]
+source        = "https://github.com/tylerh111/pydantic-pint"
+issues        = "https://github.com/tylerh111/pydantic-pint/issues"
+changes       = "https://github.com/tylerh111/pydantic-pint/blob/main/CHANGES.md"
+documentation = "https://pydantic-pint.readthedocs.io"
+
+[dependency-groups]
+all = [
+    { include-group = "dev"   },
+    { include-group = "docs"  },
+    { include-group = "build" },
+    { include-group = "lint"  },
+    { include-group = "test"  },
+]
+dev = [
+    "rust-just",
+    "setuptools-scm",
+    { include-group = "lint" },
+    { include-group = "test" },
+]
 build = [
     "build",
     "bump-my-version",
-    "setuptools>=61",
     "setuptools-scm",
     "towncrier",
     "twine",
 ]
-dev = [
-    "nox",
-    "setuptools-scm",
-    "pydantic-pint[build,docs,lint,tests]"
-]
 docs = [
+    "griffe",
     "mike",
-    "mkdocs",
-    "mkdocs-exclude",
-    "mkdocs-material",
-    "mkdocs-material-extensions",
-    "mkdocs-minify-plugin",
-    "mkdocs-redirects",
     "mkdocstrings",
     "mkdocstrings-python",
-    "pygments",
-    "pymdown-extensions",
+    "zensical",
+]
+notebooks = [
+    "ipykernel<7",
 ]
 lint = [
-  "ruff",
+    "ruff",
 ]
-tests = [
-  "pytest",
-  "pytest-cov",
+test = [
+    "pytest>=8",
 ]
 
 [tool.bumpversion]
@@ -191,7 +200,7 @@ directory = "changes"
 filename = "CHANGES.md"
 start_string = "<!-- release notes -->\n"
 underlines = ["", "", ""]
-title_format = "## [{version}](https://github.com/tylerh111/pydantic-pint/releases/tag/{version}) - {project_date}"
+title_format = "## [{version}] ({project_date})"
 issue_format = "[{issue}](https://github.com/tylerh111/pydantic-pint/issues/{issue})"
 type = [
     { name = "Security", directory = "security", showcontent = true},
