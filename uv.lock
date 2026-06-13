@@ -2819,6 +2819,7 @@ dependencies = [
     { name = "pint", version = "0.25.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
     { name = "pydantic", version = "2.10.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
     { name = "pydantic", version = "2.13.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.9'" },
+    { name = "typing-extensions", version = "4.13.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
 ]
 
 [package.dev-dependencies]
@@ -2905,6 +2906,7 @@ test = [
 requires-dist = [
     { name = "pint", specifier = ">=0.20" },
     { name = "pydantic", specifier = ">=2.0" },
+    { name = "typing-extensions", marker = "python_full_version < '3.9'", specifier = ">=3.7.4" },
 ]
 
 [package.metadata.requires-dev]
