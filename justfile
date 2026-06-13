@@ -9,7 +9,7 @@ _version := if shell("which setuptools-scm || true") != "" {
     _version_fallback
 }
 
-_default_package_repo := "pypi"
+_default_package_repo := "testpypi"
 _default_package_name := "pydantic_pint"
 
 _default_dist_dir := "dist"
@@ -137,11 +137,10 @@ release-prepare bump dry="false":
 [private]
 [doc("(wip) release package to artifactory")]
 [group("release")]
-release-build:
+release-build repo=_default_package_repo: clean-dist-folder build
     twine upload \
-        -r {{ _default_package_repo }} \
-        {{ _default_dist_dir + "/" + _default_package_name + "-" + _version + "-py3-none-any.whl" }} \
-        {{ _default_dist_dir + "/" + _default_package_name + "-" + _version + ".tar.gz" }}
+        -r {{ repo }} \
+        {{ _default_dist_dir }}/*
 
 # ==============================================================================
 # helpers
