@@ -52,9 +52,9 @@ lint:
     ruff check --fix
 
 [private]
-[doc("run linter (check)")]
+[doc("run linter (diff)")]
 [group("dev")]
-lint-check:
+lint-diff:
     ruff check --no-fix --diff --exit-zero
 
 [doc("run test")]
@@ -65,44 +65,33 @@ test:
 [private]
 [doc("run test (verbose)")]
 [group("dev")]
-test-check:
+test-verbose:
     pytest -v
+
+[doc("build package")]
+[group("dev")]
+build:
+    python -m build .
 
 # ==============================================================================
 # documentation
 # ==============================================================================
 
 [doc("build documentation")]
-[group("documentation")]
+[group("docs")]
 build-docs:
     zensical build
 
 [doc("serve documentation")]
-[group("documentation")]
+[group("docs")]
 serve-docs:
     zensical serve
-
-[doc("release documentation")]
-[group("documentation")]
-[arg("no-push", long, value="true")]
-release-docs no-push="false":
-    mike deploy \
-        --branch site \
-        --remote site \
-        --update-aliases \
-        {{ if no-push == "true" { "" } else { "--push" } }} \
-        {{ _version }} \
-        dev
 
 # ==============================================================================
 # release
 # ==============================================================================
 
-[doc("build wheel package")]
-[group("release")]
-build-wheel:
-    python -m build .
-
+[private]
 [doc("prepare code for release")]
 [group("release")]
 [arg("bump")]
@@ -142,6 +131,19 @@ release-build repo=_default_package_repo: clean-dist-folder build
         -r {{ repo }} \
         {{ _default_dist_dir }}/*
 
+[private]
+[doc("release documentation")]
+[group("release")]
+[arg("no-push", long, value="true")]
+release-docs no-push="false":
+    mike deploy \
+        --branch site \
+        --remote site \
+        --update-aliases \
+        {{ if no-push == "true" { "" } else { "--push" } }} \
+        {{ _version }} \
+        dev
+
 # ==============================================================================
 # helpers
 # ==============================================================================
@@ -150,4 +152,4 @@ release-build repo=_default_package_repo: clean-dist-folder build
 [doc("clean package builds from dist folder")]
 [group("helpers")]
 clean-dist-folder:
-    rm dist/*
+    rm {{ _default_dist_dir }}/*
