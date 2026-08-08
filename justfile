@@ -120,7 +120,7 @@ release-prepare bump dry="false":
         new_version=$(bump-my-version show current_version 2> /dev/null)
         git add .
         git commit -m "releaes version $new_version"
-        git tag -m "$new_version" "$new_version"
+        # git tag -m "$new_version" "$new_version"
     fi
 
 [private]
