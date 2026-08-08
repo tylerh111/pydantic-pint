@@ -46,10 +46,22 @@ format:
 format-check:
     ruff format --check
 
+[private]
+[doc("run formatter (diff)")]
+[group("dev")]
+format-diff:
+    ruff format --diff
+
 [doc("run linter")]
 [group("dev")]
 lint:
     ruff check --fix
+
+[private]
+[doc("run linter (check)")]
+[group("dev")]
+lint-check:
+    ruff check --no-fix
 
 [private]
 [doc("run linter (diff)")]
