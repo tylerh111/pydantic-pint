@@ -72,9 +72,6 @@ toggle.name = "Switch to dark mode"
 [project.extra]
 generator = false
 
-[project.extra.version]
-provider = "mike"
-
 [[project.extra.social]]
 icon = "fontawesome/brands/github"
 link = "https://github.com/tylerh111/pydantic-pint/"
@@ -88,9 +85,6 @@ link = "https://pypi.org/project/pydantic-pint/"
 # plugins
 # ==============================================================================
 
-[project.plugins.mike]
-alias_type = "symlink"
-canonical_version = "latest"
 [project.plugins.mkdocstrings.handlers.python]
 inventories = [
     "https://docs.python.org/3/objects.inv",

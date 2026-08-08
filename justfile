@@ -131,19 +131,6 @@ release-build repo=_default_package_repo: clean-dist-folder build
         -r {{ repo }} \
         {{ _default_dist_dir }}/*
 
-[private]
-[doc("release documentation")]
-[group("release")]
-[arg("no-push", long, value="true")]
-release-docs no-push="false":
-    mike deploy \
-        --branch site \
-        --remote site \
-        --update-aliases \
-        {{ if no-push == "true" { "" } else { "--push" } }} \
-        {{ _version }} \
-        dev
-
 # ==============================================================================
 # helpers
 # ==============================================================================

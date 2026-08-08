@@ -75,7 +75,6 @@ build = [
 ]
 docs = [
     "griffe",
-    "mike",
     "mkdocstrings",
     "mkdocstrings-python",
     "zensical",
