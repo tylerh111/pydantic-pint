@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-import pytest
 from pint.facets.plain import PlainQuantity
-from pydantic import BaseModel, ValidationError
+from pydantic import BaseModel
 
 from pydantic_pint import PydanticPintQuantity, get_registry
 
@@ -22,6 +21,7 @@ def test_quantity_validate_nonmult_units_degF():
     assert x.value.m == 1
     assert x.value.u == ureg.Unit("degF")
     assert x.value == ureg.Quantity(1, "degF")
+
 
 def test_quantity_validate_nonmult_units_degC():
     ureg = get_registry()

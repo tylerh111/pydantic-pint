@@ -16,9 +16,9 @@ from pydantic_core import SchemaSerializer, core_schema
 from pydantic_pint.registry import get_registry
 
 __all__ = [
+    "inject_pydantic_schema",
     "pydantic_pint_value",
     "pydantic_pint_value_schema",
-    "inject_pydantic_schema",
 ]
 
 

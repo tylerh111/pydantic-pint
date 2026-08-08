@@ -2,11 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased](https://github.com/tylerh111/pydantic-pint/compare/0.0...main)
+## [Unreleased]
 
 <!-- release notes -->
 
-## [0.4](https://github.com/tylerh111/pydantic-pint/releases/tag/0.4) - 2026-04-09
+## [0.4] (2026-04-09)
 
 ### Added
 
@@ -14,7 +14,7 @@ All notable changes to this project will be documented in this file.
   Note, `python==3.8` still has type hint issues due to low mypy version available. ([50](https://github.com/tylerh111/pydantic-pint/issues/50))
 
 
-## [0.3](https://github.com/tylerh111/pydantic-pint/releases/tag/0.3) - 2025-10-26
+## [0.3] (2025-10-26)
 
 ### Fixed
 
@@ -22,7 +22,7 @@ All notable changes to this project will be documented in this file.
 - Fixed issue where dimensions without a default unit cannot be validated. ([47](https://github.com/tylerh111/pydantic-pint/issues/47))
 
 
-## [0.2](https://github.com/tylerh111/pydantic-pint/releases/tag/0.2) - 2025-03-30
+## [0.2] (2025-03-30)
 
 ### Added
 
@@ -52,9 +52,17 @@ All notable changes to this project will be documented in this file.
   To use the old behavior, enable exact mode which forces the users to provide units of the exact dimensions. ([28](https://github.com/tylerh111/pydantic-pint/issues/28))
 
 
-## [0.1](https://github.com/tylerh111/pydantic-pint/releases/tag/0.1) - 2024-05-06
+## [0.1] (2024-05-06)
 
 
 ### Added
 
 - Added initial code, docs, and tools.
+
+<!-- links -->
+
+[unreleased]: https://github.com/tylerh111/pydantic-pint/compare/0.4...main
+[0.4]: https://github.com/tylerh111/pydantic-pint/releases/tag/0.4
+[0.3]: https://github.com/tylerh111/pydantic-pint/releases/tag/0.3
+[0.2]: https://github.com/tylerh111/pydantic-pint/releases/tag/0.2
+[0.1]: https://github.com/tylerh111/pydantic-pint/releases/tag/0.1

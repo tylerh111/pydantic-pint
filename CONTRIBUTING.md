@@ -125,6 +125,7 @@ You are help Pydantic Pint grow and prosper with your involvement.
 We hope to see your contributions in the project soon!
 
 <!-- links -->
+
 [project]:             https://github.com/tylerh111/pydantic-pint
 [star]:                https://github.com/tylerh111/pydantic-pint
 [watch]:               https://github.com/tylerh111/pydantic-pint

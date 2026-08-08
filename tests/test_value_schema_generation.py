@@ -1,10 +1,9 @@
 from __future__ import annotations
 
-import pytest
 from pint.facets.plain import PlainQuantity
-from pydantic import BaseModel, ValidationError, Field
+from pydantic import BaseModel, Field
 
-from pydantic_pint import PydanticPintQuantity, pydantic_pint_value, get_registry
+from pydantic_pint import PydanticPintQuantity, get_registry, pydantic_pint_value
 
 try:
     from typing import Annotated
@@ -24,6 +23,7 @@ def test_quantity_schema_generation_validation():
 
     schema = TestModel.model_json_schema(mode="validation")
     assert isinstance(schema, dict)
+
 
 def test_quantity_schema_generation_serialization():
     ureg = get_registry()

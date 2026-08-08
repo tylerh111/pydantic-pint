@@ -40,44 +40,10 @@ classifiers = [
 dependencies = [
     "pint>=0.20",
     "pydantic>=2.0",
+    "typing-extensions>=3.7.4 ; python_full_version < '3.9'"
 ]
 dynamic = [
     "version",
-]
-
-[project.optional-dependencies]
-build = [
-    "build",
-    "bumpver",
-    "setuptools>=61",
-    "setuptools-scm",
-    "towncrier",
-    "twine",
-]
-dev = [
-    "nox",
-    "setuptools-scm",
-    "pydantic-pint[build,docs,lint,tests]"
-]
-docs = [
-    "mike",
-    "mkdocs",
-    "mkdocs-exclude",
-    "mkdocs-material",
-    "mkdocs-material-extensions",
-    "mkdocs-minify-plugin",
-    "mkdocs-redirects",
-    "mkdocstrings",
-    "mkdocstrings-python",
-    "pygments",
-    "pymdown-extensions",
-]
-lint = [
-  "ruff",
-]
-tests = [
-  "pytest",
-  "pytest-cov",
 ]
 
 [project.urls]
@@ -86,25 +52,98 @@ issues        = "https://github.com/tylerh111/pydantic-pint/issues"
 changes       = "https://github.com/tylerh111/pydantic-pint/blob/main/CHANGES.md"
 documentation = "https://pydantic-pint.readthedocs.io"
 
-[tool.bumpver]
-current_version = "0.4"
-version_pattern = "MAJOR.MINOR[.PATCH][-TAG]"
-commit_message = "release version {new_version}"
-commit = true
-tag = true
-push = false
+[dependency-groups]
+all = [
+    { include-group = "dev"   },
+    { include-group = "docs"  },
+    { include-group = "build" },
+    { include-group = "lint"  },
+    { include-group = "test"  },
+]
+dev = [
+    "rust-just",
+    "setuptools-scm",
+    { include-group = "lint" },
+    { include-group = "test" },
+]
+build = [
+    "build",
+    "bump-my-version",
+    "setuptools-scm",
+    "towncrier",
+    "twine",
+]
+docs = [
+    "griffe",
+    "mike",
+    "mkdocstrings",
+    "mkdocstrings-python",
+    "zensical",
+]
+notebooks = [
+    "ipykernel<7",
+]
+lint = [
+    "ruff",
+]
+test = [
+    "pytest>=8",
+]
 
-[tool.bumpver.file_patterns]
-"LICENSE.md" = [
-    'Copyright (c) 2024-YYYY',
-]
-"pyproject.toml" = [
-    'current_version = "{version}"',
-    'fallback_version = "{version}"',
-]
-"src/pydantic_pint/__init__.py" = [
-    '__version__ = "{version}"',
-]
+[tool.bumpversion]
+current_version = "0.4.0"
+commit = false
+message = "release version {new_version}"
+tag = false
+tag_message = "{new_version}"
+tag_name = "{new_version}"
+
+[[tool.bumpversion.files]]
+filename = "CHANGES.md"
+search = """
+[unreleased]: https://github.com/tylerh111/pydantic-pint/compare/{current_version}...main
+"""
+replace = """
+[unreleased]: https://github.com/tylerh111/pydantic-pint/compare/{new_version}...main
+[{new_version}]: https://github.com/tylerh111/pydantic-pint/releases/tag/{new_version}
+"""
+
+[[tool.bumpversion.files]]
+filename = "justfile"
+search = '_version_fallback := "{current_version}"'
+replace = '_version_fallback := "{new_version}"'
+
+[[tool.bumpversion.files]]
+filename = "LICENSE.md"
+search = "Copyright \\(c\\) 2024-\\d{{4}}"
+replace = "Copyright \\(c\\) 2024-{now:%Y}"
+regex = true
+
+[[tool.bumpversion.files]]
+filename = "pyproject.toml"
+search = 'current_version = "{current_version}"'
+replace = 'current_version = "{new_version}"'
+
+[[tool.bumpversion.files]]
+filename = "pyproject.toml"
+search = 'fallback_version = "{current_version}"'
+replace = 'fallback_version = "{new_version}"'
+
+[[tool.bumpversion.files]]
+filename = "pyproject.toml"
+search = 'version = "{current_version}"'
+replace = 'version = "{new_version}"'
+
+[[tool.bumpversion.files]]
+filename = "zensical.toml"
+search = "Copyright &copy; 2024-\\d{{4}}"
+replace = "Copyright &copy; 2024-{now:%Y}"
+regex = true
+
+[[tool.bumpversion.files]]
+filename = "src/pydantic_pint/__init__.py"
+search = '__version__ = "{current_version}"'
+replace = '__version__ = "{new_version}"'
 
 [tool.coverage.run]
 branch = true
@@ -152,18 +191,17 @@ required-imports = ["from __future__ import annotations"]
 "**/{docs,tests,tools}/*" = ["E402", "D"]
 "**/notebooks/**/*.ipynb" = ["E402"]
 "*.pyi" = ["I002"]
-"noxfile.py" = ["D"]
 
 [tool.ruff.format]
 quote-style = "double"
 
 [tool.towncrier]
-version = "0.0"
+version = "0.4.0"
 directory = "changes"
 filename = "CHANGES.md"
 start_string = "<!-- release notes -->\n"
 underlines = ["", "", ""]
-title_format = "## [{version}](https://github.com/tylerh111/pydantic-pint/releases/tag/{version}) - {project_date}"
+title_format = "## [{version}] ({project_date})"
 issue_format = "[{issue}](https://github.com/tylerh111/pydantic-pint/issues/{issue})"
 type = [
     { name = "Security", directory = "security", showcontent = true},
@@ -176,6 +214,6 @@ type = [
 ]
 
 [tool.setuptools_scm]
+fallback_version = "0.4.0"
 version_scheme = "no-guess-dev"
 write_to = "src/pydantic_pint/_version.py"
-fallback_version = "0.4"

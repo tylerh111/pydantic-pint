@@ -5,15 +5,15 @@ from __future__ import annotations
 try:
     from ._version import __version__
 except ImportError:
-    __version__ = "0.4"
+    __version__ = "0.4.0"
 
 
 __all__ = [
     "PydanticPintQuantity",
     "PydanticPintValue",
-    "pydantic_pint_value",
     "app_registry",
     "get_registry",
+    "pydantic_pint_value",
     "set_registry",
 ]
 

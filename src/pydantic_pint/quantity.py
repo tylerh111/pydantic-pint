@@ -9,8 +9,8 @@ if TYPE_CHECKING:
     from pydantic import GetCoreSchemaHandler
 
 import pint
-from pint.facets.plain.quantity import PlainQuantity as Quantity
 from pint.facets.context.objects import Context
+from pint.facets.plain.quantity import PlainQuantity as Quantity
 from pydantic_core import core_schema
 
 from pydantic_pint.registry import get_registry
@@ -211,10 +211,10 @@ class PydanticPintQuantity:
             raise ValueError(f"must specify units with dimension restriction")
 
         if not self.exact:
-            if (
-                v.check(self.dimensions) or
-                any(v.is_compatible_with(dim) for dim in
-                    self.ureg._cache.dimensional_equivalents.get(self.dimensions, [])
+            if v.check(self.dimensions) or any(
+                v.is_compatible_with(dim)
+                for dim in self.ureg._cache.dimensional_equivalents.get(
+                    self.dimensions, []
                 )
             ):
                 return v
@@ -324,7 +324,9 @@ class PydanticPintQuantity:
         if self.ser_mode == "dict":
             _ser_return_schema = core_schema.typed_dict_schema(
                 {
-                    "magnitude": core_schema.typed_dict_field(core_schema.float_schema()),
+                    "magnitude": core_schema.typed_dict_field(
+                        core_schema.float_schema()
+                    ),
                     "units": core_schema.typed_dict_field(core_schema.str_schema()),
                 }
             )
