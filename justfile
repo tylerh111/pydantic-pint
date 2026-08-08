@@ -124,7 +124,7 @@ release-prepare bump dry="false":
     fi
 
 [private]
-[doc("(wip) release package to artifactory")]
+[doc("release package to pypi")]
 [group("release")]
 release-build repo=_default_package_repo: clean-dist-folder build
     twine upload \
