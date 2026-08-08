@@ -125,7 +125,8 @@ def test_quantity_restrict_dimensions_with_no_default_units_defined():
 
     class TestModel(BaseModel):
         value: Annotated[
-            PlainQuantity, PydanticPintQuantity("[conductivity]", exact=False, ureg=ureg)
+            PlainQuantity,
+            PydanticPintQuantity("[conductivity]", exact=False, ureg=ureg),
         ]
 
     x = TestModel(value="1 S/m")

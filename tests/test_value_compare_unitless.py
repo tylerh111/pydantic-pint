@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from pydantic_pint import pydantic_pint_value, get_registry
+from pydantic_pint import get_registry, pydantic_pint_value
 
 
 def test_value_compare_1percent():

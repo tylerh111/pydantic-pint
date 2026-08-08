@@ -4,7 +4,7 @@ import pytest
 from pint.facets.plain import PlainQuantity
 from pydantic import BaseModel, Field, ValidationError
 
-from pydantic_pint import PydanticPintQuantity, pydantic_pint_value, get_registry
+from pydantic_pint import PydanticPintQuantity, get_registry, pydantic_pint_value
 
 try:
     from typing import Annotated
