@@ -139,4 +139,4 @@ release-build repo=_default_package_repo: clean-dist-folder build
 [doc("clean package builds from dist folder")]
 [group("helpers")]
 clean-dist-folder:
-    rm {{ _default_dist_dir }}/*
+    rm -rf {{ _default_dist_dir }}
