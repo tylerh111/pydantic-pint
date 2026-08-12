@@ -46,10 +46,22 @@ format:
 format-check:
     ruff format --check
 
+[private]
+[doc("run formatter (diff)")]
+[group("dev")]
+format-diff:
+    ruff format --diff
+
 [doc("run linter")]
 [group("dev")]
 lint:
     ruff check --fix
+
+[private]
+[doc("run linter (check)")]
+[group("dev")]
+lint-check:
+    ruff check --no-fix
 
 [private]
 [doc("run linter (diff)")]
@@ -120,11 +132,11 @@ release-prepare bump dry="false":
         new_version=$(bump-my-version show current_version 2> /dev/null)
         git add .
         git commit -m "releaes version $new_version"
-        git tag -m "$new_version" "$new_version"
+        # git tag -m "$new_version" "$new_version"
     fi
 
 [private]
-[doc("(wip) release package to artifactory")]
+[doc("release package to pypi")]
 [group("release")]
 release-build repo=_default_package_repo: clean-dist-folder build
     twine upload \
@@ -139,4 +151,4 @@ release-build repo=_default_package_repo: clean-dist-folder build
 [doc("clean package builds from dist folder")]
 [group("helpers")]
 clean-dist-folder:
-    rm {{ _default_dist_dir }}/*
+    rm -rf {{ _default_dist_dir }}
