@@ -6,6 +6,24 @@ All notable changes to this project will be documented in this file.
 
 <!-- release notes -->
 
+## [0.5.0] (2026-08-12)
+
+### Fixed
+
+- Fixed issue that caused the serialization schema for `PydanticPintQuantity` from being created.
+  This will now allow models that utilize `PydanticPintQuantity` to be used in [FastAPI](https://fastapi.tiangolo.com/) applications. ([57](https://github.com/tylerh111/pydantic-pint/issues/57))
+- Fixed issues caused by `pint>=0.25.3`.
+  See https://github.com/hgrecco/pint/pull/2260 for more information. ([61](https://github.com/tylerh111/pydantic-pint/issues/61))
+- Included the missing serialization return schema in the Pydantic core schema for `PydanticPintQuantity`. ([62](https://github.com/tylerh111/pydantic-pint/issues/62))
+- Improved logic for validating units and dimensions when user provides a number as input.
+  In this case, the value is forced to be quantity with `dimensionless` units.
+  This then can be checked for early on when validating against the specified units / dimensions. ([64](https://github.com/tylerh111/pydantic-pint/issues/64))
+
+### Misc
+
+- [46](https://github.com/tylerh111/pydantic-pint/issues/46), [58](https://github.com/tylerh111/pydantic-pint/issues/58), [59](https://github.com/tylerh111/pydantic-pint/issues/59), [66](https://github.com/tylerh111/pydantic-pint/issues/66), [69](https://github.com/tylerh111/pydantic-pint/issues/69)
+
+
 ## [0.4] (2026-04-09)
 
 ### Added
@@ -61,7 +79,8 @@ All notable changes to this project will be documented in this file.
 
 <!-- links -->
 
-[unreleased]: https://github.com/tylerh111/pydantic-pint/compare/0.4...main
+[unreleased]: https://github.com/tylerh111/pydantic-pint/compare/0.5.0...main
+[0.5.0]: https://github.com/tylerh111/pydantic-pint/releases/tag/0.5.0
 [0.4]: https://github.com/tylerh111/pydantic-pint/releases/tag/0.4
 [0.3]: https://github.com/tylerh111/pydantic-pint/releases/tag/0.3
 [0.2]: https://github.com/tylerh111/pydantic-pint/releases/tag/0.2
