@@ -12,7 +12,7 @@ except ImportError:
     from typing_extensions import Annotated
 
 
-def test_quantity_construction_unrestricted_non_strict():
+def test_quantity_construction_unrestricted_nonstrict():
     ureg = get_registry()
 
     class TestModel(BaseModel):
