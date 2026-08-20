@@ -224,7 +224,7 @@ except ValidationError as e:
 !!! warning "Feature or Bug?"
 
     Whether this is a feature or a bug is up for the developer to decide.
-    It is clearly a feature of Pint
+    It is clearly a feature of Pint.
     However, Pydantic might consider this behavior a bug due to the validation schema changing over time.
 
     Consider using unit registry contexts instead.
@@ -236,7 +236,6 @@ except ValidationError as e:
 The annotation can have a serialization mode for `"str"`, `"dict"`, `"number"` or `None` (the default).
 The default serialization behavior is to return a `str` or `pint.Quantity`, depending on the whether it produce a JSON serializable object.
 That is, it will return a `str` if in Pydantic's `"json"` mode, and it will return a `pint.Quantity` if in Pydantic's `"python"`.
-Use `to_json` to change between these modes if using the serialization function directly.
 
 === "Default (`ser_mode=None`)"
 
@@ -294,8 +293,25 @@ Use `to_json` to change between these modes if using the serialization function 
     #> {'quantity': 1000}
     ```
 
+For separate explicit serialization for Pydantic's `"json"` mode, use `ser_mode_json` instead.
+This parameter will override the `ser_mode` parameter when set to `"str"`, `"dict"`, `"number"`.
+By default, it will use the same value as `ser_mode`, except when set to `None`, in which case it defaults to `str` (as described above).
+
+```python title="Separate serialization for different modes"
+class Model(BaseModel):
+    quantity: Annotated[Quantity, PydanticPintQuantity("m", ser_mode="dict", ser_mode_json="number")]
+
+m = Model(quantity={"magnitude": 1000, "units": "m"})
+
+print(m.model_dump())
+print(m.model_dump(mode="json"))
+#> {'quantity': {'magnitude': 1000, 'units': <Unit('meter')>}}
+#> {'quantity': 1000}
+```
+
+
 !!! warning "Serializing to a Number"
 
-    Serialization to a number is dangerous due to the loss of information of the units.
-    If you need to get the magnitude of the value, it is recommended to use `"dict"` for serialization mode instead.
+    Serialization to a number is dangerous due to the loss of units.
+    If it is necessary to get the magnitude of the value, it is recommended to use `"dict"` for serialization mode instead.
     Users can pull the magnitude easily from the `"magnitude"` key.

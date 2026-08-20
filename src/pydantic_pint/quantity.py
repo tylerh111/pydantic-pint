@@ -44,8 +44,14 @@ class PydanticPintQuantity:
             It is recommended to use the default.
         ser_mode:
             The mode for serializing the field; either `"str"`, `"dict", "number"`.
-            By default, in Pydantic's `"python"` serialization mode, fields are serialzied to a `pint.Quantity`;
-            in Pydantic's `"json"` serialziation mode, fields are serialized to a `str`.
+            This parameter is used for both Pydantic's serialization modes (`"python"` or `"json"`) when `ser_mode_json` is set to `None`.
+            By default, in Pydantic's `"python"` serialization mode, fields are serialzied to a `pint.Quantity`.
+            Note, the units are dropped when serializing to a number.
+        ser_mode_json:
+            The mode for serializing the field specifically for Pydantic's `"json"` serialization mode; either `"str"`, `"dict", "number"`.
+            This parameter overrides `ser_mode` when Pydantic serialization mode is set to `"json"`.
+            If `ser_mode_json` is set to `None`, the field will use the same value as `ser_mode`.
+            In the case were `ser_mode` is also set to `None`, the field will be serialized to a `str` in Pydantic's `"json"` serialization mode.
             Note, the units are dropped when serializing to a number.
         strict:
             Forces users to specify units; on by default.
@@ -67,11 +73,13 @@ class PydanticPintQuantity:
         ureg_contexts: Iterable[str | Context] | None = None,
         restriction: Literal["units", "dimensions"] | None = None,
         ser_mode: Literal["str", "dict", "number"] | None = None,
+        ser_mode_json: Literal["str", "dict", "number"] | None = None,
         strict: bool = True,
         exact: bool = False,
     ):
         self.restriction = restriction.lower() if restriction else None
         self.ser_mode = ser_mode.lower() if ser_mode else None
+        self.ser_mode_json = ser_mode_json.lower() if ser_mode_json else ser_mode
         self.strict = strict
         self.exact = exact
 
@@ -247,13 +255,13 @@ class PydanticPintQuantity:
         """
         to_json = to_json or (info is not None and info.mode_is_json())
 
-        if self.ser_mode == "dict":
+        if (self.ser_mode_json if to_json else self.ser_mode) == "dict":
             return {
                 "magnitude": v.magnitude,
                 "units": v.units if not to_json else f"{v.units}",
             }
 
-        if self.ser_mode == "number":
+        if (self.ser_mode_json if to_json else self.ser_mode) == "number":
             return v.magnitude
 
         # special case when no serialization mode is specified, but
@@ -282,13 +290,33 @@ class PydanticPintQuantity:
         """
         _from_typedict_schema = {
             "magnitude": core_schema.typed_dict_field(
-                core_schema.str_schema(coerce_numbers_to_str=True),
+                core_schema.union_schema(
+                    [
+                        core_schema.int_schema(),
+                        core_schema.float_schema(),
+                        core_schema.str_schema(coerce_numbers_to_str=True),
+                    ]
+                )
             ),
             "units": core_schema.typed_dict_field(
-                core_schema.str_schema(),
+                core_schema.union_schema(
+                    [
+                        core_schema.str_schema(coerce_numbers_to_str=True),
+                        core_schema.any_schema(),  # for `pint.Unit`
+                    ]
+                ),
                 required=False,
             ),
         }
+
+        if self.ser_mode == "dict":
+            serialize_schema = core_schema.typed_dict_schema(_from_typedict_schema)
+        elif self.ser_mode == "number":
+            serialize_schema = core_schema.float_schema()
+        elif self.ser_mode == "str":
+            serialize_schema = core_schema.str_schema()
+        else:
+            serialize_schema = core_schema.any_schema()
 
         validate_schema = core_schema.chain_schema(
             [
@@ -303,10 +331,23 @@ class PydanticPintQuantity:
                     self.validate,
                     core_schema.is_instance_schema(Quantity),
                 ),
-            ]
+            ],
+            serialization=core_schema.plain_serializer_function_ser_schema(
+                self.serialize,
+                info_arg=True,
+                return_schema=serialize_schema,
+            ),
         )
 
-        validate_json_schema = core_schema.chain_schema(
+        if self.ser_mode_json == "dict":
+            serialize_schema_json = core_schema.typed_dict_schema(_from_typedict_schema)
+        elif self.ser_mode_json == "number":
+            serialize_schema_json = core_schema.float_schema()
+        else:  # self.ser_mode_json == "str"
+            # serialization defaults to `str` in JSON serialization mode
+            serialize_schema_json = core_schema.str_schema()
+
+        validate_schema_json = core_schema.chain_schema(
             [
                 core_schema.union_schema(
                     [
@@ -318,33 +359,15 @@ class PydanticPintQuantity:
                     self.validate,
                     core_schema.any_schema(),
                 ),
-            ]
-        )
-
-        if self.ser_mode == "dict":
-            _ser_return_schema = core_schema.typed_dict_schema(
-                {
-                    "magnitude": core_schema.typed_dict_field(
-                        core_schema.float_schema()
-                    ),
-                    "units": core_schema.typed_dict_field(core_schema.str_schema()),
-                }
-            )
-        elif self.ser_mode == "number":
-            _ser_return_schema = core_schema.float_schema()
-        else:
-            # self.ser_mode == "str"
-            # serialization defaults to `str` in JSON serialization mode
-            _ser_return_schema = core_schema.str_schema()
-
-        serialize_schema = core_schema.plain_serializer_function_ser_schema(
-            self.serialize,
-            info_arg=True,
-            return_schema=_ser_return_schema,
+            ],
+            serialization=core_schema.plain_serializer_function_ser_schema(
+                self.serialize,
+                info_arg=True,
+                return_schema=serialize_schema_json,
+            ),
         )
 
         return core_schema.json_or_python_schema(
-            json_schema=validate_json_schema,
+            json_schema=validate_schema_json,
             python_schema=validate_schema,
-            serialization=serialize_schema,
         )
