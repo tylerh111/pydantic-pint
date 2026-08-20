@@ -85,6 +85,22 @@ This means there is no common / default unit for that field.
     #> Model(quantity=<Quantity(1, 'inch')>)
     ```
 
+#### Unrestricted Validation
+
+The `PydanticPintQuantity` also has the option to allow unrestricted units and dimensions.
+If no base units or dimensions are provided and `restriction` is set to `None` (the default), then input with any unit or dimension is accepted.
+Note, the presence of units are still checked for in `strict` mode.
+
+```python
+class Model(BaseModel):
+    quantity: Annotated[Quantity, PydanticPintQuantity()]
+
+Model(quantity=1 * ureg.meters)
+Model(quantity=1 * ureg.seconds)
+#> Model(quantity=<Quantity(1, 'meter')>)
+#> Model(quantity=<Quantity(1, 'second')>)
+```
+
 ### Strict Mode
 
 By default, strict mode is enabled which forces users to include units when instantiating the model.
