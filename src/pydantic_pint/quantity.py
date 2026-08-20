@@ -30,7 +30,8 @@ class PydanticPintQuantity:
         _arg:
             The base units or dimensions to check the Pydantic field.
             If the field is restricted by units, all input units must be convertible to these units.
-            If the field is restricted by dimension, then any unit of that dimension is allowed.
+            If the field is restricted by dimensions, then any unit of that dimension is allowed.
+            When this field and `restriction` is set to `None`, any units are accepted.
         ureg:
             A custom Pint unit registry.
             If not specified, the default unit registry from `pydantic_pint.registry.app_registry` is used.
@@ -66,7 +67,7 @@ class PydanticPintQuantity:
 
     def __init__(
         self,
-        _arg: str | Mapping[str, int],
+        _arg: str | Mapping[str, int] | None = None,
         /,
         *,
         ureg: pint.UnitRegistry | None = None,
@@ -85,6 +86,12 @@ class PydanticPintQuantity:
 
         self.ureg = ureg if ureg else get_registry()
         self.ureg_contexts = ureg_contexts if ureg_contexts else []
+
+        # special case for when no base units or dimensions are specified
+        if self.restriction is None and _arg is None:
+            self.units = None
+            self.dimensions = None
+            return
 
         # if restriction is not specified, try to automatically figure out what to restrict
         # this is based on how `pint` can digest the `_arg`
@@ -176,6 +183,8 @@ class PydanticPintQuantity:
                 return self._validate_units(v)
             elif self.restriction == "dimensions":
                 return self._validate_dimensions(v)
+            elif self.restriction is None:
+                return self._validate_anything(v)
             else:
                 raise ValueError(f"unknown restrictions '{self.restriction}'")
         except AttributeError as e:
@@ -231,6 +240,11 @@ class PydanticPintQuantity:
             if v.check(self.dimensions):
                 return v
             raise ValueError(f"must specify exact dimensions: '{self.dimensions}'")
+
+    def _validate_anything(self, v: Quantity):
+        if v.u == self.ureg.dimensionless and self.strict:
+            raise ValueError(f"must specify units with 'strict' flag enabled")
+        return v
 
     def serialize(
         self,
