@@ -2,7 +2,7 @@
 # settings
 # ==============================================================================
 
-_version_fallback := "0.5.0"
+_version_fallback := "0.6.0"
 _version := if shell("which setuptools-scm || true") != "" {
     shell("setuptools-scm")
 } else {
@@ -131,7 +131,7 @@ release-prepare bump dry="false":
     if [ "{{ dry }}" == "false" ]; then
         new_version=$(bump-my-version show current_version 2> /dev/null)
         git add .
-        git commit -m "releaes version $new_version"
+        git commit -m "release version $new_version"
         # git tag -m "$new_version" "$new_version"
     fi
 

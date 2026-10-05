@@ -6,6 +6,19 @@ All notable changes to this project will be documented in this file.
 
 <!-- release notes -->
 
+## [0.6.0] (2026-10-05)
+
+### Added
+
+- Validation now can be configured for unrestricted unit and dimension. By providing no base unit or dimension, e.g. `PydanticPintQuantity()`, any unit and dimension is allowed. Note, the presence of units is still checked for in `strict` mode. ([76](https://github.com/tylerh111/pydantic-pint/issues/76))
+
+### Changed
+
+- Serialization is now split into two parameters: `ser_mode` and `ser_mode_json`. The original behavior is give by `ser_mode_json=None`. Otherwise, `ser_mode_json` overrides `ser_mode` when Pydantic serialization is set to `"json"`, e.g. `quantity.model_dump(mode="json")`.
+
+  Note, this requires a schema update. Serialization schemas are now separate between python vs json serialization. The schema now uses the same typed dictionary schema (i.e. `magnitude` and `unit` dictionary). ([74](https://github.com/tylerh111/pydantic-pint/issues/74))
+
+
 ## [0.5.0] (2026-08-12)
 
 ### Fixed
@@ -79,7 +92,8 @@ All notable changes to this project will be documented in this file.
 
 <!-- links -->
 
-[unreleased]: https://github.com/tylerh111/pydantic-pint/compare/0.5.0...main
+[unreleased]: https://github.com/tylerh111/pydantic-pint/compare/0.6.0...main
+[0.6.0]: https://github.com/tylerh111/pydantic-pint/releases/tag/0.6.0
 [0.5.0]: https://github.com/tylerh111/pydantic-pint/releases/tag/0.5.0
 [0.4]: https://github.com/tylerh111/pydantic-pint/releases/tag/0.4
 [0.3]: https://github.com/tylerh111/pydantic-pint/releases/tag/0.3
