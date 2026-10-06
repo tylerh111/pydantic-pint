@@ -90,7 +90,7 @@ test = [
 ]
 
 [tool.bumpversion]
-current_version = "0.5.0"
+current_version = "0.6.0"
 commit = false
 message = "release version {new_version}"
 tag = false
@@ -195,7 +195,7 @@ required-imports = ["from __future__ import annotations"]
 quote-style = "double"
 
 [tool.towncrier]
-version = "0.5.0"
+version = "0.6.0"
 directory = "changes"
 filename = "CHANGES.md"
 start_string = "<!-- release notes -->\n"
@@ -213,6 +213,6 @@ type = [
 ]
 
 [tool.setuptools_scm]
-fallback_version = "0.5.0"
+fallback_version = "0.6.0"
 version_scheme = "no-guess-dev"
 write_to = "src/pydantic_pint/_version.py"
