@@ -161,13 +161,13 @@ class PydanticPintQuantity:
         """
         try:
             if isinstance(v, dict):
-                v = f"{v['magnitude']} {v.get('units', '')}"
+                v = self.ureg.Quantity(v["magnitude"], v.get("units", ""))
         except KeyError as e:
             raise ValueError("no `magnitude` or `units` keys found") from e
 
         try:
             if isinstance(v, str):
-                v = self.ureg(v)
+                v = self.ureg.Quantity(v)
         except pint.PintError as e:
             raise ValueError(e) from e
 
@@ -176,7 +176,7 @@ class PydanticPintQuantity:
         # force value to be a quantity with dimensionless units in this case
         # compatibility with validation settings (required units / dimensions) is next
         if isinstance(v, Number):
-            v = self.ureg(f"{v} dimensionless")
+            v = self.ureg.Quantity(v, "dimensionless")
 
         try:
             if self.restriction == "units":
