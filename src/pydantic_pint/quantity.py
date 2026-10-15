@@ -205,7 +205,7 @@ class PydanticPintQuantity:
         if self.units is None:
             raise TypeError(f"unknown error: units are restricted but units are none")
 
-        if v.u == self.ureg.dimensionless:
+        if v.u == self.ureg.dimensionless and self.units != self.ureg.dimensionless:
             if not self.strict:
                 return self.ureg.Quantity(v.magnitude, self.units)
             else:
@@ -224,7 +224,7 @@ class PydanticPintQuantity:
                 f"unknown error: dimensions are restricted but dimensions are none"
             )
 
-        if v.u == self.ureg.dimensionless:
+        if v.u == self.ureg.dimensionless and self.dimensions != self.ureg.dimensionless:
             raise ValueError(f"must specify units with dimension restriction")
 
         if not self.exact:
