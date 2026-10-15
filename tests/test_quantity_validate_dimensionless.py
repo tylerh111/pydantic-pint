@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-import pytest
 from pint.facets.plain import PlainQuantity
-from pydantic import BaseModel, ValidationError
+from pydantic import BaseModel
 
 from pydantic_pint import PydanticPintQuantity, get_registry
 
@@ -79,7 +78,9 @@ def test_quantity_restrict_dimensionless_restrict_dimensions_number():
     ureg = get_registry()
 
     class TestModel(BaseModel):
-        value: Annotated[PlainQuantity, PydanticPintQuantity("", restriction="dimensions")]
+        value: Annotated[
+            PlainQuantity, PydanticPintQuantity("", restriction="dimensions")
+        ]
 
     x = TestModel(value=1)
     assert x.value.m == 1
@@ -91,7 +92,9 @@ def test_quantity_restrict_dimensionless_restrict_dimensions_str():
     ureg = get_registry()
 
     class TestModel(BaseModel):
-        value: Annotated[PlainQuantity, PydanticPintQuantity("", restriction="dimensions")]
+        value: Annotated[
+            PlainQuantity, PydanticPintQuantity("", restriction="dimensions")
+        ]
 
     x = TestModel(value="1")
     assert x.value.m == 1
@@ -108,7 +111,9 @@ def test_quantity_restrict_dimensionless_restrict_dimensions_dict():
     ureg = get_registry()
 
     class TestModel(BaseModel):
-        value: Annotated[PlainQuantity, PydanticPintQuantity("", restriction="dimensions")]
+        value: Annotated[
+            PlainQuantity, PydanticPintQuantity("", restriction="dimensions")
+        ]
 
     x = TestModel(value={"magnitude": 1})
     assert x.value.m == 1
@@ -125,7 +130,9 @@ def test_quantity_restrict_dimensionless_restrict_dimensions_quantity():
     ureg = get_registry()
 
     class TestModel(BaseModel):
-        value: Annotated[PlainQuantity, PydanticPintQuantity("", restriction="dimensions")]
+        value: Annotated[
+            PlainQuantity, PydanticPintQuantity("", restriction="dimensions")
+        ]
 
     x = TestModel(value=ureg("1"))
     assert x.value.m == 1
