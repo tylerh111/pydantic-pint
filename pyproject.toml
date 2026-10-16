@@ -9,7 +9,7 @@ authors = [
     {name = "Tyler Hughes", email = "tylerxh111+git@proton.me"},
 ]
 readme = "README.md"
-license = "MIT"
+license = { file = "LICENSE.md" }
 requires-python = ">=3.8"
 keywords = [
     "pydantic-pint",
