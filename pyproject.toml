@@ -9,7 +9,7 @@ authors = [
     {name = "Tyler Hughes", email = "tylerxh111+git@proton.me"},
 ]
 readme = "README.md"
-license = { file = "LICENSE.md" }
+license = "MIT"
 requires-python = ">=3.8"
 keywords = [
     "pydantic-pint",
@@ -21,7 +21,6 @@ classifiers = [
     "Framework :: Pydantic",
     "Framework :: Pydantic :: 2",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
