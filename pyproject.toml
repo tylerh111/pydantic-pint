@@ -57,6 +57,7 @@ all = [
     { include-group = "dev"   },
     { include-group = "docs"  },
     { include-group = "build" },
+    { include-group = "notebook" },
     { include-group = "lint"  },
     { include-group = "test"  },
 ]
@@ -79,7 +80,7 @@ docs = [
     "mkdocstrings-python",
     "zensical",
 ]
-notebooks = [
+notebook = [
     "ipykernel<7",
 ]
 lint = [
