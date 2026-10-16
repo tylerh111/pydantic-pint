@@ -84,6 +84,7 @@ test-verbose:
 [doc("run tests matrix")]
 [group("dev")]
 test-matrix:
+    UV_PROJECT_ENVIRONMENT=.venv/3.15/ uv run --no-default-groups --group test pytest -q
     UV_PROJECT_ENVIRONMENT=.venv/3.14/ uv run --no-default-groups --group test pytest -q
     UV_PROJECT_ENVIRONMENT=.venv/3.13/ uv run --no-default-groups --group test pytest -q
     UV_PROJECT_ENVIRONMENT=.venv/3.12/ uv run --no-default-groups --group test pytest -q
@@ -107,6 +108,7 @@ build:
 [group("env")]
 env-create:
     mkdir -p .venv/
+    uv venv -p 3.15 --allow-existing .venv/3.15/
     uv venv -p 3.14 --allow-existing .venv/3.14/
     uv venv -p 3.13 --allow-existing .venv/3.13/
     uv venv -p 3.12 --allow-existing .venv/3.12/
@@ -118,6 +120,7 @@ env-create:
 [doc("environment sync")]
 [group("env")]
 env-sync:
+    UV_PROJECT_ENVIRONMENT=.venv/3.15/ uv sync --group all
     UV_PROJECT_ENVIRONMENT=.venv/3.14/ uv sync --group all
     UV_PROJECT_ENVIRONMENT=.venv/3.13/ uv sync --group all
     UV_PROJECT_ENVIRONMENT=.venv/3.12/ uv sync --group all
