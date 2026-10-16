@@ -1,13 +1,24 @@
 from __future__ import annotations
 
 import math
+from importlib.metadata import version
 
 import pytest
+from packaging.version import Version
 
 from pydantic_pint import PydanticPintQuantity, get_registry
 
+
 MAGNITUDE = 42.0
 ureg = get_registry()
+
+# Non-multiplicative units (offset and logarithmic) fail to validate correctly
+# in pint<0.26 due to pint [#386](https://github.com/hgrecco/pint/issues/386)
+# and fixed in pint [#2300](https://github.com/hgrecco/pint/pull/2300).
+skip_non_multiplicative = pytest.mark.skipif(
+    Version(version("pint")) < Version("0.26"),
+    reason="non-multiplicative units are broken in pint<0.26",
+)
 
 
 def _check_equality(expected, actual):
@@ -21,9 +32,12 @@ def _check_equality(expected, actual):
 @pytest.mark.parametrize(
     "unit",
     [
-        unit
+        pytest.param(
+            unit,
+            marks=() if unitdef.is_multiplicative else skip_non_multiplicative,
+        )
         for unit, unitdef in ureg._units.items()
-        if unitdef.name not in ureg._base_units
+        if not unitdef.is_base
     ],
 )
 def test_quantity_serialize_all_units(unit: str):
