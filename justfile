@@ -94,6 +94,14 @@ test-matrix:
     UV_PROJECT_ENVIRONMENT=.venv/3.8/  uv run --no-default-groups --group test pytest -q
 
 
+[private]
+[doc("run tests matrix (single)")]
+[group("dev")]
+[arg("ver")]
+test-matrix-single ver:
+    UV_PROJECT_ENVIRONMENT=.venv/{{ ver }}/  uv run --no-default-groups --group test pytest -q
+
+
 [doc("build package")]
 [group("dev")]
 build:
