@@ -2,7 +2,7 @@
 # settings
 # ==============================================================================
 
-_version_fallback := "0.6.0"
+_version_fallback := "0.7.0"
 _version := if shell("which setuptools-scm || true") != "" {
     shell("setuptools-scm")
 } else {
