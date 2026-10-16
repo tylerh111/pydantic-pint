@@ -32,6 +32,7 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
     "Programming Language :: Python :: 3 :: Only",
     "Topic :: Scientific/Engineering",
     "Topic :: Software Development :: Libraries :: Python Modules",
@@ -57,6 +58,7 @@ all = [
     { include-group = "dev"   },
     { include-group = "docs"  },
     { include-group = "build" },
+    { include-group = "notebook" },
     { include-group = "lint"  },
     { include-group = "test"  },
 ]
@@ -79,11 +81,12 @@ docs = [
     "mkdocstrings-python",
     "zensical",
 ]
-notebooks = [
+notebook = [
     "ipykernel<7",
 ]
 lint = [
     "ruff",
+    "ty",
 ]
 test = [
     "pytest>=8",
@@ -172,6 +175,7 @@ pythonpath = "src"
 line-length = 88
 indent-width = 4
 target-version = "py38"
+extend-exclude = ["*.md"]
 
 [tool.ruff.lint]
 # see rules at https://docs.astral.sh/ruff/rules
@@ -194,6 +198,11 @@ required-imports = ["from __future__ import annotations"]
 [tool.ruff.format]
 quote-style = "double"
 
+[tool.setuptools_scm]
+fallback_version = "0.6.0"
+version_scheme = "no-guess-dev"
+write_to = "src/pydantic_pint/_version.py"
+
 [tool.towncrier]
 version = "0.6.0"
 directory = "changes"
@@ -212,7 +221,5 @@ type = [
     { name = "Misc", directory = "misc", showcontent = false },
 ]
 
-[tool.setuptools_scm]
-fallback_version = "0.6.0"
-version_scheme = "no-guess-dev"
-write_to = "src/pydantic_pint/_version.py"
+[tool.ty.src]
+include = ["src"]

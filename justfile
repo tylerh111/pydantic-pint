@@ -80,10 +80,62 @@ test:
 test-verbose:
     pytest -v
 
+[private]
+[doc("run tests matrix")]
+[group("dev")]
+test-matrix:
+    UV_PROJECT_ENVIRONMENT=.venv/3.15/ uv run --no-default-groups --group test pytest -q
+    UV_PROJECT_ENVIRONMENT=.venv/3.14/ uv run --no-default-groups --group test pytest -q
+    UV_PROJECT_ENVIRONMENT=.venv/3.13/ uv run --no-default-groups --group test pytest -q
+    UV_PROJECT_ENVIRONMENT=.venv/3.12/ uv run --no-default-groups --group test pytest -q
+    UV_PROJECT_ENVIRONMENT=.venv/3.11/ uv run --no-default-groups --group test pytest -q
+    UV_PROJECT_ENVIRONMENT=.venv/3.10/ uv run --no-default-groups --group test pytest -q
+    UV_PROJECT_ENVIRONMENT=.venv/3.9/  uv run --no-default-groups --group test pytest -q
+    UV_PROJECT_ENVIRONMENT=.venv/3.8/  uv run --no-default-groups --group test pytest -q
+
+
+[private]
+[doc("run tests matrix (single)")]
+[group("dev")]
+[arg("ver")]
+test-matrix-single ver:
+    UV_PROJECT_ENVIRONMENT=.venv/{{ ver }}/  uv run --no-default-groups --group test pytest -q
+
+
 [doc("build package")]
 [group("dev")]
 build:
     python -m build .
+
+
+# ==============================================================================
+# environment
+# ==============================================================================
+
+[doc("environment create")]
+[group("env")]
+env-create:
+    mkdir -p .venv/
+    uv venv -p 3.15 --allow-existing .venv/3.15/
+    uv venv -p 3.14 --allow-existing .venv/3.14/
+    uv venv -p 3.13 --allow-existing .venv/3.13/
+    uv venv -p 3.12 --allow-existing .venv/3.12/
+    uv venv -p 3.11 --allow-existing .venv/3.11/
+    uv venv -p 3.10 --allow-existing .venv/3.10/
+    uv venv -p 3.9  --allow-existing .venv/3.9/
+    uv venv -p 3.8  --allow-existing .venv/3.8/
+
+[doc("environment sync")]
+[group("env")]
+env-sync:
+    UV_PROJECT_ENVIRONMENT=.venv/3.15/ uv sync --group all
+    UV_PROJECT_ENVIRONMENT=.venv/3.14/ uv sync --group all
+    UV_PROJECT_ENVIRONMENT=.venv/3.13/ uv sync --group all
+    UV_PROJECT_ENVIRONMENT=.venv/3.12/ uv sync --group all
+    UV_PROJECT_ENVIRONMENT=.venv/3.11/ uv sync --group all
+    UV_PROJECT_ENVIRONMENT=.venv/3.10/ uv sync --group all
+    UV_PROJECT_ENVIRONMENT=.venv/3.9/  uv sync --group all
+    UV_PROJECT_ENVIRONMENT=.venv/3.8/  uv sync --group all
 
 # ==============================================================================
 # documentation
