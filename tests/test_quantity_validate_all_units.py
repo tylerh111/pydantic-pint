@@ -15,7 +15,6 @@ def _check_equality(expected, actual):
     assert actual.units == expected.units
 
 
-
 # This unit test is parametrized by the available units defined by default in pint.
 # All non-base units are tested against their reference units.
 # For more information, find defintions file `pint/default_en.txt`.
