@@ -21,7 +21,6 @@ classifiers = [
     "Framework :: Pydantic",
     "Framework :: Pydantic :: 2",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
@@ -93,7 +92,7 @@ test = [
 ]
 
 [tool.bumpversion]
-current_version = "0.6.0"
+current_version = "0.7.0"
 commit = false
 message = "release version {new_version}"
 tag = false
@@ -199,12 +198,12 @@ required-imports = ["from __future__ import annotations"]
 quote-style = "double"
 
 [tool.setuptools_scm]
-fallback_version = "0.6.0"
+fallback_version = "0.7.0"
 version_scheme = "no-guess-dev"
 write_to = "src/pydantic_pint/_version.py"
 
 [tool.towncrier]
-version = "0.6.0"
+version = "0.7.0"
 directory = "changes"
 filename = "CHANGES.md"
 start_string = "<!-- release notes -->\n"

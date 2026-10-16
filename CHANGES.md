@@ -6,6 +6,21 @@ All notable changes to this project will be documented in this file.
 
 <!-- release notes -->
 
+## [0.7.0] (2026-10-16)
+
+### Added
+
+- Added support for Python 3.15. ([83](https://github.com/tylerh111/pydantic-pint/issues/83))
+
+### Fixed
+
+- Fixed issue where dimensionless restrictions, either via units `"dimensionless"` or dimension `""`, could not validate any quantities that were already dimensionless. ([81](https://github.com/tylerh111/pydantic-pint/issues/81))
+
+### Misc
+
+- [83](https://github.com/tylerh111/pydantic-pint/issues/83)
+
+
 ## [0.6.0] (2026-10-05)
 
 ### Added
@@ -92,7 +107,8 @@ All notable changes to this project will be documented in this file.
 
 <!-- links -->
 
-[unreleased]: https://github.com/tylerh111/pydantic-pint/compare/0.6.0...main
+[unreleased]: https://github.com/tylerh111/pydantic-pint/compare/0.7.0...main
+[0.7.0]: https://github.com/tylerh111/pydantic-pint/releases/tag/0.7.0
 [0.6.0]: https://github.com/tylerh111/pydantic-pint/releases/tag/0.6.0
 [0.5.0]: https://github.com/tylerh111/pydantic-pint/releases/tag/0.5.0
 [0.4]: https://github.com/tylerh111/pydantic-pint/releases/tag/0.4
