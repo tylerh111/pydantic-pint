@@ -175,6 +175,7 @@ pythonpath = "src"
 line-length = 88
 indent-width = 4
 target-version = "py38"
+extend-exclude = ["*.md"]
 
 [tool.ruff.lint]
 # see rules at https://docs.astral.sh/ruff/rules

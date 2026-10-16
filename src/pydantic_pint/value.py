@@ -51,12 +51,7 @@ def inject_pydantic_schema(
     Returns:
         The same Pint quantity with a pydantic schema.
     """
-    setattr(
-        quantity,
-        "__pydantic_serializer__",
-        pydantic_pint_value_schema(),
-    )
-
+    quantity.__pydantic_serializer__ = pydantic_pint_value_schema()
     return quantity
 
 

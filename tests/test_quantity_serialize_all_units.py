@@ -8,7 +8,6 @@ from packaging.version import Version
 
 from pydantic_pint import PydanticPintQuantity, get_registry
 
-
 MAGNITUDE = 42.0
 ureg = get_registry()
 
