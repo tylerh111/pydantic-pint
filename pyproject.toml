@@ -84,6 +84,7 @@ notebooks = [
 ]
 lint = [
     "ruff",
+    "ty",
 ]
 test = [
     "pytest>=8",
@@ -194,6 +195,11 @@ required-imports = ["from __future__ import annotations"]
 [tool.ruff.format]
 quote-style = "double"
 
+[tool.setuptools_scm]
+fallback_version = "0.6.0"
+version_scheme = "no-guess-dev"
+write_to = "src/pydantic_pint/_version.py"
+
 [tool.towncrier]
 version = "0.6.0"
 directory = "changes"
@@ -212,7 +218,5 @@ type = [
     { name = "Misc", directory = "misc", showcontent = false },
 ]
 
-[tool.setuptools_scm]
-fallback_version = "0.6.0"
-version_scheme = "no-guess-dev"
-write_to = "src/pydantic_pint/_version.py"
+[tool.ty.src]
+include = ["src"]

@@ -11,6 +11,7 @@ else:
     from typing_extensions import deprecated
 
 import pint
+from pint.facets.plain.quantity import PlainQuantity as Quantity
 from pydantic_core import SchemaSerializer, core_schema
 
 from pydantic_pint.registry import get_registry
@@ -40,8 +41,8 @@ def pydantic_pint_value_schema() -> SchemaSerializer:
 
 
 def inject_pydantic_schema(
-    quantity: pint.Quantity,
-) -> pint.Quantity:
+    quantity: Quantity,
+) -> Quantity:
     """Adds the Pydantic serializer schema to a Pint quantity.
 
     Args:
@@ -65,7 +66,7 @@ def pydantic_pint_value(
     /,
     *,
     ureg: pint.UnitRegistry | None = None,
-) -> pint.Quantity:
+) -> Quantity:
     """Construct `pint.Quantity` with an injected Pydantic serialization schema.
 
     A serialization schema is added to a Pint quantity to allow it to be serialized
@@ -91,7 +92,7 @@ def pydantic_pint_value(
 
 
 @deprecated("use `pydantic_pint_value` instead")
-def PydanticPintValue(*args, **kwargs) -> pint.Quantity:
+def PydanticPintValue(*args, **kwargs) -> Quantity:
     """Proxy class for a Pint Quantity instance with pydantic serialization.
 
     !!! warning
